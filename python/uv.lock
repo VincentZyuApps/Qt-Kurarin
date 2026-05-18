@@ -57,7 +57,7 @@ wheels = [
 
 [[package]]
 name = "qt-kurarin"
-version = "0.0.1a1+20260518"
+version = "0.0.1b1"
 source = { editable = "." }
 dependencies = [
     { name = "pyqt6" },

@@ -1,11 +1,11 @@
 [project]
 name = "qt-kurarin"
-version = "0.0.1-beta.1+20260518"
+version = "0.0.1-beta.2+20260518"
 description = "Prototype multi-window Qt reconstruction of Kyukurarin desktop MV effects."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "PyQt6==6.11.1",
+    "PyQt6==6.11.0",
 ]
 
 [project.scripts]
