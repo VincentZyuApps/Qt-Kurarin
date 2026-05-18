@@ -21,9 +21,11 @@ This is a PyQt6 reconstruction track for validating the core effect of the [orig
 - fade in / fade out
 - always-on-top presentation
 
-| ![Windows 11](docs/images/preview.windows11.png) | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) | ![macOS 14](docs/images/preview.macos14.png) |
-|:-:|:-:|:-:|
-| Windows 11 — `--frame-style win11` | Debian 13 + KDE Wayland | macOS 14 Sonoma |
+| Platform | Preview |
+|:---|:---:|
+| Windows 11 | ![Windows 11](docs/images/preview.windows11.png) |
+| Debian 13 + KDE Wayland | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) |
+| macOS 14 Sonoma | ![macOS 14](docs/images/preview.macos14.png) |
 
 The current build reads:
 

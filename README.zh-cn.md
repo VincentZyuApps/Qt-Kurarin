@@ -21,9 +21,11 @@
 - 淡入 / 淡出
 - 始终置顶显示
 
-| ![Windows 11](docs/images/preview.windows11.png) | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) | ![macOS 14](docs/images/preview.macos14.png) |
-|:-:|:-:|:-:|
-| Windows 11 — `--frame-style win11` | Debian 13 + KDE Wayland | macOS 14 Sonoma |
+| 平台 | 预览 |
+|:---|:---:|
+| Windows 11 | ![Windows 11](docs/images/preview.windows11.png) |
+| Debian 13 + KDE Wayland | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) |
+| macOS 14 Sonoma | ![macOS 14](docs/images/preview.macos14.png) |
 
 当前构建会读取：
 

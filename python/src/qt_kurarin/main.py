@@ -5,7 +5,6 @@ import socket
 import signal
 import subprocess
 import sys
-from collections import deque
 from threading import Lock, Thread
 
 from PyQt6.QtCore import QTimer
@@ -51,22 +50,10 @@ def main() -> int:
     tui_server: socket.socket | None = None
     tui_connection: socket.socket | None = None
     tui_connection_lock = Lock()
-    tui_stderr_lines: deque[str] = deque(maxlen=40)
 
-    def read_tui_stderr(proc: subprocess.Popen[str]) -> None:
-        if proc.stderr is None:
-            return
-        for line in proc.stderr:
-            tui_stderr_lines.append(line.rstrip("\n"))
-            if options.tui_debug_stderr:
-                print(f"[tui stderr] {line}", end="", flush=True)
-
-    def print_tui_stderr_summary() -> None:
-        if not tui_stderr_lines:
-            return
-        print("[warning] Recent Textual TUI stderr:", flush=True)
-        for line in tui_stderr_lines:
-            print(f"[tui stderr] {line}", flush=True)
+    def debug_tui(message: str) -> None:
+        if options.tui_debug_stderr:
+            print(f"[tui debug] {message}", flush=True)
 
     def graceful_exit() -> None:
         nonlocal exit_announced
@@ -104,6 +91,7 @@ def main() -> int:
         tui_server.bind(("127.0.0.1", 0))
         tui_server.listen(1)
         tui_port = tui_server.getsockname()[1]
+        debug_tui(f"listening on 127.0.0.1:{tui_port}")
 
         def accept_tui_connection() -> None:
             nonlocal tui_connection
@@ -111,19 +99,20 @@ def main() -> int:
             try:
                 connection, _ = tui_server.accept()
             except OSError:
+                debug_tui("accept() aborted before TUI connected")
                 return
             with tui_connection_lock:
                 tui_connection = connection
+            debug_tui("TUI subprocess connected to snapshot socket")
 
         tui_process = subprocess.Popen(
             [sys.executable, "-m", "qt_kurarin.main", "--tui-port", str(tui_port)],
-            stderr=subprocess.PIPE,
             text=True,
             encoding="utf-8",
             bufsize=1,
         )
+        debug_tui(f"spawned TUI subprocess pid={tui_process.pid}")
         Thread(target=accept_tui_connection, daemon=True).start()
-        Thread(target=read_tui_stderr, args=(tui_process,), daemon=True).start()
         tui_timer = QTimer()
         tui_timer.setInterval(120)
 
@@ -138,7 +127,7 @@ def main() -> int:
                         f"[warning] Textual TUI exited (code {tui_process.poll()}). GUI continuing.",
                         flush=True,
                     )
-                    print_tui_stderr_summary()
+                    debug_tui("TUI subprocess exited before next snapshot push")
                 tui_timer.stop()
                 return
             with tui_connection_lock:
@@ -156,7 +145,7 @@ def main() -> int:
                         "[warning] Lost connection to Textual TUI. GUI continuing.",
                         flush=True,
                     )
-                    print_tui_stderr_summary()
+                    debug_tui("snapshot socket send failed")
                 tui_timer.stop()
 
         tui_timer.timeout.connect(push_snapshot)
