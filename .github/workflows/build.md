@@ -1,5 +1,9 @@
 # Build & Publish Workflow
 
+> **[📖 English](build.md)**
+> **[📖 简体中文(大陆)](build.zh-cn.md)**
+> **[📖 日本語](build.jp.md)**
+
 This repository uses a small commit-message-driven workflow for the Python package in `python/`.
 
 ## Keywords
