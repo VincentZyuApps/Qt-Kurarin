@@ -2,18 +2,19 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PyQt6.QtCore import QTimer, Qt
+from PyQt6.QtCore import QTimer, Qt, QRectF
 from PyQt6.QtGui import QGuiApplication, QPainter, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
 
-from .frame_style import draw_frame
+from .frame_style import content_clip_path, draw_frame
+from .animation import SpriteFrame
 from .parser import parse_script
 from .player import AudioClock
 from .sprite import RenderSprite, build_render_sprites
 
 
 class PlayerWindow(QWidget):
-    def __init__(self, frame_style: str = "none") -> None:
+    def __init__(self, frame_style: str = "none", verbose: bool = False) -> None:
         flags = (
             Qt.WindowType.FramelessWindowHint
             | Qt.WindowType.WindowStaysOnTopHint
@@ -33,10 +34,12 @@ class PlayerWindow(QWidget):
         self.resources_dir = package_dir / "resources"
         self.audio_path = self.resources_dir / "audio.mp3"
         self.frame_style = frame_style
+        self.verbose = verbose
 
         self.render_sprites: list[RenderSprite] = []
         self.max_time = 0
         self.clock = AudioClock(self.audio_path)
+        self._last_verbose_time = -1
 
         self.timer = QTimer(self)
         self.timer.setInterval(16)
@@ -75,7 +78,15 @@ class PlayerWindow(QWidget):
             self.shutdown()
             QApplication.quit()
             return
+        if self.verbose:
+            self._log_verbose_frame(elapsed)
         self.update()
+
+    def _log_verbose_frame(self, elapsed: int) -> None:
+        if elapsed == self._last_verbose_time:
+            return
+        self._last_verbose_time = elapsed
+        print(f"[{elapsed:6d} ms] frame", flush=True)
 
     def paintEvent(self, event) -> None:  # type: ignore[override]
         del event
@@ -95,7 +106,9 @@ class PlayerWindow(QWidget):
             sampled = sprite.evaluate(elapsed, global_scale, offset_x, offset_y)
             if sampled is None:
                 continue
-            target_rect, opacity = sampled
+            target_rect, opacity, frame = sampled
+            if self.verbose:
+                self._log_sprite_frame(frame, target_rect)
             painter.setOpacity(opacity)
             content_rect = draw_frame(
                 painter=painter,
@@ -104,6 +117,19 @@ class PlayerWindow(QWidget):
                 title=sprite.definition.resource_name.replace(".png", ""),
                 opacity=opacity,
             )
+            clip_path = content_clip_path(content_rect, self.frame_style)
+            painter.save()
+            if clip_path is not None:
+                painter.setClipPath(clip_path)
             painter.drawPixmap(content_rect.toRect(), sprite.pixmap)
+            painter.restore()
 
         painter.end()
+
+    def _log_sprite_frame(self, frame: SpriteFrame, target_rect: QRectF) -> None:
+        print(
+            f"  {frame.resource_name} x={frame.x:.1f} y={frame.y:.1f} "
+            f"w={target_rect.width():.1f} h={target_rect.height():.1f} "
+            f"opacity={frame.opacity:.3f} scale={frame.scale:.3f}",
+            flush=True,
+        )

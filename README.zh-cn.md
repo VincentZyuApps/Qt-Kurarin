@@ -30,6 +30,12 @@ cd Qt-Kurarin/python
 uv venv --python 3.12
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main
+uv run python -m qt_kurarin.main --frame-style none
+uv run python -m qt_kurarin.main --frame-style win11
+uv run python -m qt_kurarin.main --frame-style mac
+uv run qt-kurarin --frame-style none --verbose
+uv run qt-kurarin --frame-style win11 --verbose
+uv run qt-kurarin --frame-style mac --verbose
 ```
 
 ## 从 PyPI 运行
@@ -39,6 +45,10 @@ uv venv --python 3.12
 uv pip install qt-kurarin
 # uv pip install qt-kurarin --index-url https://pypi.org/simple  # 镜像源没刷新可试试官方源
 uv run qt-kurarin
+uv run qt-kurarin --frame-style none
 uv run qt-kurarin --frame-style win11
 uv run qt-kurarin --frame-style mac
+uv run qt-kurarin --frame-style none --verbose
+uv run qt-kurarin --frame-style win11 --verbose
+uv run qt-kurarin --frame-style mac --verbose
 ```

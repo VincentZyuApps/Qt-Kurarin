@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from PyQt6.QtCore import QRectF
 from PyQt6.QtGui import QPixmap
 
-from .animation import Movement, SpriteDefinition, SpriteState, SENTINEL_END
+from .animation import Movement, SpriteDefinition, SpriteFrame, SpriteState, SENTINEL_END
 from .easing import get_easing
 
 
@@ -19,7 +19,7 @@ class RenderSprite:
     definition: SpriteDefinition
     pixmap: QPixmap
 
-    def evaluate(self, time_ms: int, global_scale: float, offset_x: float, offset_y: float) -> tuple[QRectF, float] | None:
+    def evaluate(self, time_ms: int, global_scale: float, offset_x: float, offset_y: float) -> tuple[QRectF, float, SpriteFrame] | None:
         if self.pixmap.isNull():
             return None
         if self.definition.movements and time_ms < self.definition.movements[0].time_start:
@@ -47,7 +47,16 @@ class RenderSprite:
 
         x = state.x * global_scale + offset_x + _anchor_offset(width)
         y = state.y * global_scale + offset_y + _anchor_offset(height)
-        return QRectF(x, y, width, height), max(0.0, min(1.0, state.opacity))
+        frame = SpriteFrame(
+            resource_name=self.definition.resource_name,
+            time_ms=time_ms,
+            x=x,
+            y=y,
+            opacity=max(0.0, min(1.0, state.opacity)),
+            scale=state.scale,
+            visible=True,
+        )
+        return QRectF(x, y, width, height), frame.opacity, frame
 
     def _apply_movement(self, state: SpriteState, movement: Movement, time_ms: int) -> None:
         if movement.is_instant or movement.time_end == SENTINEL_END:

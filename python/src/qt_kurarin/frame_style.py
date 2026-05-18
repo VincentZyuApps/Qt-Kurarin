@@ -80,15 +80,47 @@ def draw_frame(
     return layout.content_rect
 
 
+def content_clip_path(content_rect: QRectF, frame_style: str) -> QPainterPath | None:
+    if frame_style == FRAME_STYLE_NONE:
+        return None
+
+    radius = 8.0 if frame_style == FRAME_STYLE_WIN11 else 12.0
+    return _bottom_rounded_path(content_rect, radius)
+
+
 def _rounded_path(rect: QRectF, radius: float) -> QPainterPath:
     path = QPainterPath()
     path.addRoundedRect(rect, radius, radius)
     return path
 
 
+def _bottom_rounded_path(rect: QRectF, radius: float) -> QPainterPath:
+    radius = min(radius, rect.width() / 2.0, rect.height() / 2.0)
+    path = QPainterPath()
+    path.moveTo(rect.left(), rect.top())
+    path.lineTo(rect.right(), rect.top())
+    path.lineTo(rect.right(), rect.bottom() - radius)
+    path.quadTo(
+        rect.right(),
+        rect.bottom(),
+        rect.right() - radius,
+        rect.bottom(),
+    )
+    path.lineTo(rect.left() + radius, rect.bottom())
+    path.quadTo(
+        rect.left(),
+        rect.bottom(),
+        rect.left(),
+        rect.bottom() - radius,
+    )
+    path.lineTo(rect.left(), rect.top())
+    path.closeSubpath()
+    return path
+
+
 def _make_frame_band(layout: FrameLayout) -> QPainterPath:
     band = _rounded_path(layout.outer_rect, layout.radius)
-    inner = _rounded_path(
+    inner = _bottom_rounded_path(
         layout.content_rect.adjusted(
             -layout.border_width * 0.35,
             -layout.border_width * 0.35,
@@ -123,7 +155,7 @@ def _make_title_path(layout: FrameLayout) -> QPainterPath:
 
 
 def _make_ring(outer_rect: QRectF, outer_radius: float, inner_rect: QRectF, inner_radius: float) -> QPainterPath:
-    return _rounded_path(outer_rect, outer_radius).subtracted(_rounded_path(inner_rect, inner_radius))
+    return _rounded_path(outer_rect, outer_radius).subtracted(_bottom_rounded_path(inner_rect, inner_radius))
 
 
 def _draw_shadow(painter: QPainter, layout: FrameLayout, opacity: float, dy: float) -> None:

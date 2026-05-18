@@ -17,6 +17,7 @@ FRAME_STYLE_CHOICES = (
 @dataclass(slots=True)
 class AppOptions:
     frame_style: str = FRAME_STYLE_NONE
+    verbose: bool = False
 
 
 def parse_args(argv: list[str] | None = None) -> AppOptions:
@@ -30,5 +31,11 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         default=FRAME_STYLE_NONE,
         help="Window-like frame style for each animated sprite.",
     )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Print live sprite playback details to the console.",
+    )
     args = parser.parse_args(argv)
-    return AppOptions(frame_style=args.frame_style)
+    return AppOptions(frame_style=args.frame_style, verbose=args.verbose)

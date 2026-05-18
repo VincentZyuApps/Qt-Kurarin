@@ -23,7 +23,7 @@ def main() -> int:
     app = QApplication(sys.argv)
     app.setApplicationName("Qt-Kurarin")
 
-    window = PlayerWindow(frame_style=options.frame_style)
+    window = PlayerWindow(frame_style=options.frame_style, verbose=options.verbose)
     exit_announced = False
 
     def graceful_exit() -> None:

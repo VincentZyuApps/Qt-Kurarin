@@ -33,6 +33,9 @@ uv run python -m qt_kurarin.main
 uv run python -m qt_kurarin.main --frame-style none
 uv run python -m qt_kurarin.main --frame-style win11
 uv run python -m qt_kurarin.main --frame-style mac
+uv run qt-kurarin --frame-style none --verbose
+uv run qt-kurarin --frame-style win11 --verbose
+uv run qt-kurarin --frame-style mac --verbose
 ```
 
 ## Run from PyPI
@@ -45,4 +48,7 @@ uv run qt-kurarin
 uv run qt-kurarin --frame-style none
 uv run qt-kurarin --frame-style win11
 uv run qt-kurarin --frame-style mac
-```
+uv run qt-kurarin --frame-style none --verbose
+uv run qt-kurarin --frame-style win11 --verbose
+uv run qt-kurarin --frame-style mac --verbose
+``` 

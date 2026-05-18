@@ -36,3 +36,14 @@ class SpriteState:
     y: float
     opacity: float = 1.0
     scale: float = 1.0
+
+
+@dataclass(slots=True)
+class SpriteFrame:
+    resource_name: str
+    time_ms: int
+    x: float
+    y: float
+    opacity: float
+    scale: float
+    visible: bool
