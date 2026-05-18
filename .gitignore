@@ -1,0 +1,25 @@
+# Python
+python/.venv/
+python/**/__pycache__/
+python/**/*.pyc
+
+# Local scratch
+tmp/
+temp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Qt / C++ build output
+cpp/build/
+cpp/**/build/
+cpp/CMakeFiles/
+cpp/CMakeCache.txt
+cpp/*.user
+cpp/*.obj
+cpp/*.pdb
+cpp/*.ilk
+cpp/*.exe
+cpp/*.dll
+cpp/*.lib
