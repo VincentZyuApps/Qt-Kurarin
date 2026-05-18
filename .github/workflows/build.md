@@ -24,6 +24,7 @@ git commit --allow-empty -m "release: v0.0.1-beta.1 (publish pypi)"
 
 - Pull requests always run the build job, but never publish.
 - The package version is read from `python/pyproject.toml`.
+- The repository README lives at the repository root; CI copies it into `python/README.md` before building.
 - The workflow can normalize a local/developer version into a PyPI-safe public version before building.
 - Publishing uses GitHub trusted publishing via `pypa/gh-action-pypi-publish`.
 
