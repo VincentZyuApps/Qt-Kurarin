@@ -2,6 +2,8 @@
 
 # Qt-Kurarin Python 原型
 
+> Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music
+
 > **[📖 English](README.md)**
 > **[📖 简体中文(大陆)](README.zh-cn.md)**
 > **[📖 日本語](README.jp.md)**
