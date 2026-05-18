@@ -13,6 +13,9 @@
 
 [![PyPI](https://img.shields.io/badge/PyPI-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/qt-kurarin/)
 
+[![PyPI version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Version)](https://pypi.org/project/qt-kurarin/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Downloads)](https://pypi.org/project/qt-kurarin/)
+
 これは PyQt6 ベースの再実装ラインであり、[元プロジェクト](https://github.com/VincentZyu233/Win-kurarin)の中核演出をデスクトップ上で検証するためのものです：
 
 - 複数の独立したトップレベルウィンドウ
@@ -40,6 +43,9 @@ git clone https://github.com/VincentZyuApps/Qt-Kurarin
 # または Gitee からクローン（中国本土で高速）：
 git clone https://gitee.com/vincent-zyu/qt-kurarin
 cd Qt-Kurarin/python
+# uv is recommended
+# https://docs.astral.sh/uv/getting-started/installation/
+# https://gitee.com/wangnov/uv-custom/releases
 uv venv --python 3.13
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main [オプション]

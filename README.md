@@ -13,6 +13,9 @@
 
 [![PyPI](https://img.shields.io/badge/PyPI-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/qt-kurarin/)
 
+[![PyPI version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Version)](https://pypi.org/project/qt-kurarin/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Downloads)](https://pypi.org/project/qt-kurarin/)
+
 This is a PyQt6 reconstruction track for validating the core effect of the [original project](https://github.com/VincentZyu233/Win-kurarin):
 
 - multiple independent top-level windows
@@ -40,6 +43,9 @@ git clone https://github.com/VincentZyuApps/Qt-Kurarin
 # or from gitee: 
 git clone https://gitee.com/vincent-zyu/qt-kurarin
 cd Qt-Kurarin/python
+# uv is recommended
+# https://docs.astral.sh/uv/getting-started/installation/
+# https://gitee.com/wangnov/uv-custom/releases
 uv venv --python 3.13
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main [OPTIONS]

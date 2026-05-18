@@ -13,6 +13,9 @@
 
 [![PyPI](https://img.shields.io/badge/PyPI-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/qt-kurarin/)
 
+[![PyPI version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Version)](https://pypi.org/project/qt-kurarin/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Downloads)](https://pypi.org/project/qt-kurarin/)
+
 这是一个基于 PyQt6 的重构路线，用来验证[原项目](https://github.com/VincentZyu233/Win-kurarin)核心效果在桌面上的复现方式：
 
 - 多个彼此独立的顶层窗口
@@ -40,6 +43,9 @@ git clone https://github.com/VincentZyuApps/Qt-Kurarin
 # 或从 Gitee 克隆（国内访问更快）：
 git clone https://gitee.com/vincent-zyu/qt-kurarin
 cd Qt-Kurarin/python
+# uv is recommended
+# https://docs.astral.sh/uv/getting-started/installation/
+# https://gitee.com/wangnov/uv-custom/releases
 uv venv --python 3.13
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main [选项]
