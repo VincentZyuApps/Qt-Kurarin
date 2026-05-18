@@ -8,7 +8,7 @@
 > **[📖 简体中文(大陆)](README.zh-cn.md)**
 > **[📖 日本語](README.jp.md)**
 
-这是一个基于 PyQt6 的重构路线，用来验证原项目核心效果在桌面上的复现方式：
+这是一个基于 PyQt6 的重构路线，用来验证[原项目](https://github.com/VincentZyu233/Win-kurarin)核心效果在桌面上的复现方式：
 
 - 多个彼此独立的顶层窗口
 - 透明背景
@@ -37,6 +37,7 @@ uv run python -m qt_kurarin.main
 rm -r ./.venv/ # 如果已经存在
 uv venv --python 3.12
 uv pip install qt-kurarin
+# uv pip install qt-kurarin --index-url https://pypi.org/simple  # 镜像源没刷新可试试官方源
 uv run qt-kurarin
 uv run qt-kurarin --frame-style win11
 uv run qt-kurarin --frame-style mac

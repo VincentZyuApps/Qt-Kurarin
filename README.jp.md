@@ -8,7 +8,7 @@
 > **[📖 简体中文(大陆)](README.zh-cn.md)**
 > **[📖 日本語](README.jp.md)**
 
-これは PyQt6 ベースの再実装ラインであり、元プロジェクトの中核演出をデスクトップ上で検証するためのものです：
+これは PyQt6 ベースの再実装ラインであり、[元プロジェクト](https://github.com/VincentZyu233/Win-kurarin)の中核演出をデスクトップ上で検証するためのものです：
 
 - 複数の独立したトップレベルウィンドウ
 - 透過背景
@@ -37,6 +37,7 @@ uv run python -m qt_kurarin.main
 rm -r ./.venv/ # すでに存在する場合
 uv venv --python 3.12
 uv pip install qt-kurarin
+# uv pip install qt-kurarin --index-url https://pypi.org/simple  # ミラーが更新されていない場合は公式ソースを試す
 uv run qt-kurarin
 uv run qt-kurarin --frame-style win11
 uv run qt-kurarin --frame-style mac

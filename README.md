@@ -8,7 +8,7 @@
 > **[📖 简体中文(大陆)](README.zh-cn.md)**
 > **[📖 日本語](README.jp.md)**
 
-This is a PyQt6 reconstruction track for validating the core effect of the original project:
+This is a PyQt6 reconstruction track for validating the core effect of the [original project](https://github.com/VincentZyu233/Win-kurarin):
 
 - multiple independent top-level windows
 - transparent backgrounds
@@ -40,6 +40,7 @@ uv run python -m qt_kurarin.main --frame-style mac
 rm -r ./.venv/ # if already exist
 uv venv --python 3.12
 uv pip install qt-kurarin
+# uv pip install qt-kurarin --index-url https://pypi.org/simple  # use official index if mirrors are not latest
 uv run qt-kurarin
 uv run qt-kurarin --frame-style none
 uv run qt-kurarin --frame-style win11

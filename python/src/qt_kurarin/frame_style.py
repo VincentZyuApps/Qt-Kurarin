@@ -174,14 +174,14 @@ def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacit
     painter.setPen(QColor(92, 95, 100, int(220 * opacity)))
     painter.setFont(QFont("Segoe UI", 7))
     painter.drawText(
-        QRectF(layout.title_bar_rect.left() + 10, layout.title_bar_rect.top(), max(0.0, layout.title_bar_rect.width() - 102), layout.title_bar_rect.height()),
+        QRectF(layout.title_bar_rect.left() + 10, layout.title_bar_rect.top(), max(0.0, layout.title_bar_rect.width() - 126), layout.title_bar_rect.height()),
         Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft,
         title.replace("_", " "),
     )
 
     button_center_y = layout.title_bar_rect.center().y() - 0.2
-    cluster_right = layout.title_bar_rect.right() - 9.5
-    spacing = 18.5
+    cluster_right = layout.title_bar_rect.right() - 10.5
+    spacing = 22.0
     close_center_x = cluster_right
     max_center_x = close_center_x - spacing
     min_center_x = max_center_x - spacing

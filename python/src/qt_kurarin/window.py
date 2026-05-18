@@ -44,6 +44,12 @@ class PlayerWindow(QWidget):
 
         self._load_scene()
 
+    def shutdown(self) -> None:
+        if self.timer.isActive():
+            self.timer.stop()
+        self.clock.stop()
+        self.close()
+
     def _load_scene(self) -> None:
         definitions, self.max_time = parse_script(self.script_path)
         pixmaps = self._load_pixmaps({definition.resource_name for definition in definitions})
@@ -66,8 +72,7 @@ class PlayerWindow(QWidget):
     def _tick(self) -> None:
         elapsed = self.clock.position()
         if elapsed > self.max_time + 1000:
-            self.timer.stop()
-            self.clock.stop()
+            self.shutdown()
             QApplication.quit()
             return
         self.update()
