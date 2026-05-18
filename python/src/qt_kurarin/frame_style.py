@@ -122,20 +122,29 @@ def _make_title_path(layout: FrameLayout) -> QPainterPath:
     return title_path.united(lower_path)
 
 
-def _draw_shadow(painter: QPainter, layout: FrameLayout, opacity: float, dx: float, dy: float) -> None:
-    shadow_band = _make_shadow_band(layout, 12.0)
-    painter.save()
-    painter.translate(dx, dy)
-    painter.fillPath(shadow_band, QColor(0, 0, 0, int(30 * opacity)))
-    painter.fillRect(
-        QRectF(
-            layout.outer_rect.left() + 8,
-            layout.outer_rect.bottom() - 2,
-            max(0.0, layout.outer_rect.width() - 16),
-            12.0,
-        ),
-        QColor(0, 0, 0, int(18 * opacity)),
+def _make_ring(outer_rect: QRectF, outer_radius: float, inner_rect: QRectF, inner_radius: float) -> QPainterPath:
+    return _rounded_path(outer_rect, outer_radius).subtracted(_rounded_path(inner_rect, inner_radius))
+
+
+def _draw_shadow(painter: QPainter, layout: FrameLayout, opacity: float, dy: float) -> None:
+    layers = (
+        (1.5, 18),
+        (3.0, 13),
+        (5.0, 9),
+        (7.5, 6),
     )
+    previous_rect = QRectF(layout.outer_rect)
+    previous_radius = layout.radius
+
+    painter.save()
+    painter.translate(0.0, dy)
+    for spread, alpha in layers:
+        expanded_rect = layout.outer_rect.adjusted(-spread, -spread, spread, spread)
+        expanded_radius = layout.radius + spread
+        ring = _make_ring(expanded_rect, expanded_radius, previous_rect, previous_radius)
+        painter.fillPath(ring, QColor(0, 0, 0, int(alpha * opacity)))
+        previous_rect = expanded_rect
+        previous_radius = expanded_radius
     painter.restore()
 
 
@@ -161,7 +170,7 @@ def _draw_outline(
 
 
 def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacity: float) -> None:
-    _draw_shadow(painter, layout, opacity, 8.0, 9.0)
+    _draw_shadow(painter, layout, opacity, 1.2)
     _draw_outline(
         painter,
         layout,
@@ -217,7 +226,7 @@ def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacit
 
 
 def _draw_mac_frame(painter: QPainter, layout: FrameLayout, title: str, opacity: float) -> None:
-    _draw_shadow(painter, layout, opacity, 7.0, 8.0)
+    _draw_shadow(painter, layout, opacity, 1.0)
     _draw_outline(
         painter,
         layout,
