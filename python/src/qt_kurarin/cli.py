@@ -48,6 +48,7 @@ class AppOptions:
     verbose: bool = False
     textual_tui: bool = False
     tui_port: int | None = None
+    tui_debug_stderr: bool = False
     hide_taskbar: bool = False
     loudness: int = 100
 
@@ -80,6 +81,7 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         help="Show live playback details in a Textual TUI.",
     )
     parser.add_argument("--tui-port", type=int, help=argparse.SUPPRESS)
+    parser.add_argument("--tui-debug-stderr", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument(
         "-n",
         "--hide-taskbar-button",
@@ -105,6 +107,7 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         verbose=args.verbose,
         textual_tui=args.textual_tui,
         tui_port=args.tui_port,
+        tui_debug_stderr=args.tui_debug_stderr,
         hide_taskbar=args.hide_taskbar_button,
         loudness=args.loudness,
     )

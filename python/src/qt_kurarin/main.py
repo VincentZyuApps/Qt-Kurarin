@@ -5,6 +5,7 @@ import socket
 import signal
 import subprocess
 import sys
+from collections import deque
 from threading import Lock, Thread
 
 from PyQt6.QtCore import QTimer
@@ -50,12 +51,22 @@ def main() -> int:
     tui_server: socket.socket | None = None
     tui_connection: socket.socket | None = None
     tui_connection_lock = Lock()
+    tui_stderr_lines: deque[str] = deque(maxlen=40)
 
     def read_tui_stderr(proc: subprocess.Popen[str]) -> None:
         if proc.stderr is None:
             return
         for line in proc.stderr:
-            print(f"[tui stderr] {line}", end="", flush=True)
+            tui_stderr_lines.append(line.rstrip("\n"))
+            if options.tui_debug_stderr:
+                print(f"[tui stderr] {line}", end="", flush=True)
+
+    def print_tui_stderr_summary() -> None:
+        if not tui_stderr_lines:
+            return
+        print("[warning] Recent Textual TUI stderr:", flush=True)
+        for line in tui_stderr_lines:
+            print(f"[tui stderr] {line}", flush=True)
 
     def graceful_exit() -> None:
         nonlocal exit_announced
@@ -127,6 +138,7 @@ def main() -> int:
                         f"[warning] Textual TUI exited (code {tui_process.poll()}). GUI continuing.",
                         flush=True,
                     )
+                    print_tui_stderr_summary()
                 tui_timer.stop()
                 return
             with tui_connection_lock:
@@ -144,6 +156,7 @@ def main() -> int:
                         "[warning] Lost connection to Textual TUI. GUI continuing.",
                         flush=True,
                     )
+                    print_tui_stderr_summary()
                 tui_timer.stop()
 
         tui_timer.timeout.connect(push_snapshot)
