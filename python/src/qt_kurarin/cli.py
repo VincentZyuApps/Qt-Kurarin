@@ -24,7 +24,9 @@ def _loudness_value(value: str) -> int:
     try:
         parsed = int(value)
     except ValueError as exc:
-        raise argparse.ArgumentTypeError("loudness must be an integer from 0 to 100") from exc
+        raise argparse.ArgumentTypeError(
+            "loudness must be an integer from 0 to 100"
+        ) from exc
     if not 0 <= parsed <= 100:
         raise argparse.ArgumentTypeError("loudness must be an integer from 0 to 100")
     return parsed
@@ -46,6 +48,7 @@ class AppOptions:
     verbose: bool = False
     textual_tui: bool = False
     tui_stdio: bool = False
+    hide_taskbar: bool = False
     loudness: int = 100
 
 
@@ -81,6 +84,16 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         help=argparse.SUPPRESS,
     )
     parser.add_argument(
+        "--hide-taskbar-button",
+        action="store_true",
+        help="Hide the taskbar/dock icon for the animated window. "
+        "Tested on Windows 10/11 (works reliably). "
+        "macOS may hide the Dock icon; "
+        "Linux depends on the compositor (KWin likely works, "
+        "GNOME/Wayland likely does not). "
+        "Not guaranteed across all platforms.",
+    )
+    parser.add_argument(
         "-l",
         "--loudness",
         type=_loudness_value,
@@ -94,5 +107,6 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         verbose=args.verbose,
         textual_tui=args.textual_tui,
         tui_stdio=args.tui_stdio,
+        hide_taskbar=args.hide_taskbar_button,
         loudness=args.loudness,
     )

@@ -33,6 +33,7 @@ def main() -> int:
         frame_style=options.frame_style,
         verbose=options.verbose,
         loudness=options.loudness,
+        hide_taskbar=options.hide_taskbar,
     )
     exit_announced = False
     tui_process: subprocess.Popen[str] | None = None
@@ -45,7 +46,11 @@ def main() -> int:
         exit_announced = True
         if tui_timer is not None and tui_timer.isActive():
             tui_timer.stop()
-        if tui_process is not None and tui_process.stdin is not None and not tui_process.stdin.closed:
+        if (
+            tui_process is not None
+            and tui_process.stdin is not None
+            and not tui_process.stdin.closed
+        ):
             try:
                 tui_process.stdin.close()
             except OSError:

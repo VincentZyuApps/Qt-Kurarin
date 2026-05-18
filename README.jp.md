@@ -60,6 +60,7 @@ uv run qt-kurarin [オプション]
 | `--frame-style <STYLE>` | ウィンドウ枠スタイル：`none`、`win11`、`mac` | `none` |
 | `-v`, `--verbose` | スプライト再生の詳細をコンソールに表示 | オフ |
 | `-t`, `--textual-tui` | Textual TUI で再生詳細を表示 | オフ |
+| `--hide-taskbar-button` | タスクバー/ドックアイコンを非表示（Win: ✅ 確実、macOS: 🟡 非表示かも、Linux: ❓ コンポジター次第） | オフ |
 | `-l`, `--loudness <0-100>` | オーディオ音量パーセント | `100` |
 
 ## 使用例

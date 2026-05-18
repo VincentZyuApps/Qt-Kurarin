@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import sys
 from collections import deque
 from pathlib import Path
 from threading import Lock
 
 from PyQt6.QtCore import QTimer, Qt, QRectF
-from PyQt6.QtGui import QGuiApplication, QPainter, QPixmap
+from PyQt6.QtGui import QGuiApplication, QIcon, QPainter, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
 
 from .frame_style import content_clip_path, draw_frame
@@ -16,18 +17,22 @@ from .sprite import RenderSprite, build_render_sprites
 
 
 class PlayerWindow(QWidget):
-    def __init__(self, frame_style: str = "none", verbose: bool = False, loudness: int = 100) -> None:
-        flags = (
-            Qt.WindowType.FramelessWindowHint
-            | Qt.WindowType.WindowStaysOnTopHint
-            | Qt.WindowType.Tool
-        )
-        super().__init__(None, flags)
+    def __init__(
+        self,
+        frame_style: str = "none",
+        verbose: bool = False,
+        loudness: int = 100,
+        hide_taskbar: bool = False,
+    ) -> None:
+        super().__init__(None)
+        self.hide_taskbar = hide_taskbar
+        self._apply_window_flags()
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
         self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
 
         screen = QGuiApplication.primaryScreen()
+
         if screen is not None:
             self.setGeometry(screen.geometry())
 
@@ -59,7 +64,52 @@ class PlayerWindow(QWidget):
         self.timer.setInterval(16)
         self.timer.timeout.connect(self._tick)
 
+        self._setup_window_icon()
         self._load_scene()
+        self._ensure_linux_desktop_file()
+
+    def _apply_window_flags(self) -> None:
+        if self.hide_taskbar:
+            self.setWindowFlags(
+                Qt.WindowType.FramelessWindowHint
+                | Qt.WindowType.WindowStaysOnTopHint
+                | Qt.WindowType.Tool
+            )
+        else:
+            self.setWindowFlags(
+                Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint
+            )
+
+    def _setup_window_icon(self) -> None:
+        icon_path = self.resources_dir / "logo" / "logo.png"
+        if icon_path.exists():
+            self.setWindowIcon(QIcon(str(icon_path)))
+        self.setWindowTitle("Qt-Kurarin")
+
+    def _ensure_linux_desktop_file(self) -> None:
+        if not sys.platform.startswith("linux"):
+            return
+        icon_path = self.resources_dir / "logo" / "logo.png"
+        if not icon_path.exists():
+            return
+        desktop_dir = Path.home() / ".local" / "share" / "applications"
+        desktop_path = desktop_dir / "qt-kurarin.desktop"
+        if desktop_path.exists():
+            return
+        try:
+            desktop_dir.mkdir(parents=True, exist_ok=True)
+            desktop_path.write_text(
+                "[Desktop Entry]\n"
+                f"Type=Application\n"
+                f"Name=Qt-Kurarin\n"
+                f"Icon={icon_path.resolve()}\n"
+                f"Exec={sys.executable} -m qt_kurarin.main\n"
+                f"Terminal=false\n"
+                f"Categories=AudioVideo;\n",
+                encoding="utf-8",
+            )
+        except OSError:
+            pass
 
     def shutdown(self) -> None:
         if self.timer.isActive():
@@ -67,9 +117,16 @@ class PlayerWindow(QWidget):
         self.clock.stop()
         self.close()
 
+    def closeEvent(self, event) -> None:  # type: ignore[override]
+        self.shutdown()
+        QApplication.quit()
+        event.accept()
+
     def _load_scene(self) -> None:
         definitions, self.max_time = parse_script(self.script_path)
-        pixmaps = self._load_pixmaps({definition.resource_name for definition in definitions})
+        pixmaps = self._load_pixmaps(
+            {definition.resource_name for definition in definitions}
+        )
         self.render_sprites = build_render_sprites(definitions, pixmaps)
         with self._snapshot_lock:
             self._snapshot.total_sprites = len(self.render_sprites)
@@ -131,7 +188,10 @@ class PlayerWindow(QWidget):
     def _update_snapshot(self, elapsed: int, visible_frames: list[SpriteFrame]) -> None:
         visible_frames = sorted(
             visible_frames,
-            key=lambda frame: (frame.width * frame.height * frame.opacity, frame.opacity),
+            key=lambda frame: (
+                frame.width * frame.height * frame.opacity,
+                frame.opacity,
+            ),
             reverse=True,
         )
         moving_count = sum("moving" in frame.status for frame in visible_frames)
@@ -235,7 +295,10 @@ class PlayerWindow(QWidget):
     def _make_scene_summary(self, visible_frames: list[SpriteFrame]) -> str:
         if not visible_frames:
             return "Stage is empty right now."
-        lead = max(visible_frames, key=lambda frame: frame.width * frame.height * max(frame.opacity, 0.001))
+        lead = max(
+            visible_frames,
+            key=lambda frame: frame.width * frame.height * max(frame.opacity, 0.001),
+        )
         active_bits = []
         moving = sum("moving" in frame.status for frame in visible_frames)
         fading = sum("fading" in frame.status for frame in visible_frames)
@@ -275,11 +338,15 @@ class PlayerWindow(QWidget):
 
         last_time = self._last_verbose_time
 
-        for resource_name in sorted(current_visible_resources - self._last_visible_resources):
+        for resource_name in sorted(
+            current_visible_resources - self._last_visible_resources
+        ):
             frame = visible_by_resource[resource_name]
             self._emit_event(elapsed, f"show {self._log_sprite_frame(frame)}")
 
-        for resource_name in sorted(self._last_visible_resources - current_visible_resources):
+        for resource_name in sorted(
+            self._last_visible_resources - current_visible_resources
+        ):
             frame = self._last_visible_frames.get(resource_name)
             if frame is not None:
                 self._emit_event(elapsed, f"hide {self._log_sprite_frame(frame)}")
@@ -289,7 +356,9 @@ class PlayerWindow(QWidget):
         for sprite in self.render_sprites:
             for movement in sprite.definition.movements:
                 if last_time < movement.time_start <= elapsed:
-                    frame = sprite.sample_frame(movement.time_start, global_scale, offset_x, offset_y)
+                    frame = sprite.sample_frame(
+                        movement.time_start, global_scale, offset_x, offset_y
+                    )
                     detail = self._movement_detail(movement)
                     suffix = f" {detail}" if detail else ""
                     if movement.is_instant:
@@ -315,7 +384,9 @@ class PlayerWindow(QWidget):
                                 f"{self._movement_label(movement)}-start {sprite.definition.resource_name}{suffix}",
                             )
                 if not movement.is_instant and last_time < movement.time_end <= elapsed:
-                    frame = sprite.sample_frame(movement.time_end, global_scale, offset_x, offset_y)
+                    frame = sprite.sample_frame(
+                        movement.time_end, global_scale, offset_x, offset_y
+                    )
                     detail = self._movement_detail(movement)
                     suffix = f" {detail}" if detail else ""
                     if frame is not None:

@@ -60,6 +60,7 @@ uv run qt-kurarin [OPTIONS]
 | `--frame-style <STYLE>` | Window frame style: `none`, `win11`, `mac` | `none` |
 | `-v`, `--verbose` | Print live sprite playback details to the console | off |
 | `-t`, `--textual-tui` | Show live playback details in a Textual TUI | off |
+| `--hide-taskbar-button` | Hide the taskbar/dock icon (Win: ✅, macOS: 🟡 may hide, Linux: ❓ depends on compositor) | off |
 | `-l`, `--loudness <0-100>` | Audio loudness percentage | `100` |
 
 ## Examples
