@@ -101,12 +101,13 @@ def main() -> int:
 
     script_text = extract_script(asset_resx_path)
 
-    data_dir = target_python_dir / "data"
+    package_root = target_python_dir / "src" / "qt_kurarin"
+    data_dir = package_root / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
     script_path = data_dir / "script.txt"
     script_path.write_text(script_text, encoding="utf-8", newline="\n")
 
-    target_resources_dir = target_python_dir / "resources"
+    target_resources_dir = package_root / "resources"
     copied_count, total_bytes = copy_resources(resources_dir, target_resources_dir)
 
     line_count = script_text.count("\n") + 1 if script_text else 0

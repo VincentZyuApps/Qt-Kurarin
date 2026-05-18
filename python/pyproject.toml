@@ -1,6 +1,6 @@
 [project]
 name = "qt-kurarin"
-version = "0.0.1-beta.3+20260518"
+version = "0.0.1-beta4+20260518"
 description = "Prototype multi-window Qt reconstruction of Kyukurarin desktop MV effects."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -17,3 +17,13 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/qt_kurarin"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/qt_kurarin/**",
+    "pyproject.toml",
+    "README.md",
+    "requirements.txt",
+    "uv.lock",
+    "uv.md",
+]

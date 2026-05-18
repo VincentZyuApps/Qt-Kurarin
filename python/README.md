@@ -16,13 +16,20 @@ The current build reads:
 - `resources/audio.mp3`
 - `resources/*.png`
 
-## Run
+## Run from source
 
-```powershell
+```shell
+git clone https://github.com/VincentZyuApps/Qt-Kurarin
 cd Qt-Kurarin/python
 uv venv --python 3.12
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main
 ```
 
+## Run from PyPI
+```shell
+uv venv --python 3.12
+uv pip install qt-kurarin
+uv run qt-kurarin
+```
 

@@ -27,9 +27,9 @@ class PlayerWindow(QWidget):
         if screen is not None:
             self.setGeometry(screen.geometry())
 
-        base_dir = Path(__file__).resolve().parents[2]
-        self.script_path = base_dir / "data" / "script.txt"
-        self.resources_dir = base_dir / "resources"
+        package_dir = Path(__file__).resolve().parent
+        self.script_path = package_dir / "data" / "script.txt"
+        self.resources_dir = package_dir / "resources"
         self.audio_path = self.resources_dir / "audio.mp3"
 
         self.render_sprites: list[RenderSprite] = []
