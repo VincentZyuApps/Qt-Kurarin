@@ -12,9 +12,8 @@
 [![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/qt-kurarin)
 
 [![PyPI](https://img.shields.io/badge/PyPI-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/qt-kurarin/)
-
-[![PyPI version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Version)](https://pypi.org/project/qt-kurarin/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Downloads)](https://pypi.org/project/qt-kurarin/)
+[![PyPI version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Version&color=3775A9)](https://pypi.org/project/qt-kurarin/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Downloads&color=FFD242)](https://pypi.org/project/qt-kurarin/)
 
 This is a PyQt6 reconstruction track for validating the core effect of the [original project](https://github.com/VincentZyu233/Win-kurarin):
 
