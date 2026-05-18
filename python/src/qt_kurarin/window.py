@@ -6,13 +6,14 @@ from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtGui import QGuiApplication, QPainter, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
 
+from .frame_style import draw_frame
 from .parser import parse_script
 from .player import AudioClock
 from .sprite import RenderSprite, build_render_sprites
 
 
 class PlayerWindow(QWidget):
-    def __init__(self) -> None:
+    def __init__(self, frame_style: str = "none") -> None:
         flags = (
             Qt.WindowType.FramelessWindowHint
             | Qt.WindowType.WindowStaysOnTopHint
@@ -31,6 +32,7 @@ class PlayerWindow(QWidget):
         self.script_path = package_dir / "data" / "script.txt"
         self.resources_dir = package_dir / "resources"
         self.audio_path = self.resources_dir / "audio.mp3"
+        self.frame_style = frame_style
 
         self.render_sprites: list[RenderSprite] = []
         self.max_time = 0
@@ -73,7 +75,9 @@ class PlayerWindow(QWidget):
     def paintEvent(self, event) -> None:  # type: ignore[override]
         del event
         painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
         painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, True)
+        painter.setRenderHint(QPainter.RenderHint.TextAntialiasing, True)
 
         height = self.height() - 180
         width = self.width()
@@ -88,6 +92,13 @@ class PlayerWindow(QWidget):
                 continue
             target_rect, opacity = sampled
             painter.setOpacity(opacity)
-            painter.drawPixmap(target_rect.toRect(), sprite.pixmap)
+            content_rect = draw_frame(
+                painter=painter,
+                content_rect=target_rect,
+                frame_style=self.frame_style,
+                title=sprite.definition.resource_name.replace(".png", ""),
+                opacity=opacity,
+            )
+            painter.drawPixmap(content_rect.toRect(), sprite.pixmap)
 
         painter.end()

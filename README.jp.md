@@ -38,4 +38,6 @@ rm -r ./.venv/ # すでに存在する場合
 uv venv --python 3.12
 uv pip install qt-kurarin
 uv run qt-kurarin
+uv run qt-kurarin --frame-style win11
+uv run qt-kurarin --frame-style mac
 ```

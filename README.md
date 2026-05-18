@@ -30,6 +30,9 @@ cd Qt-Kurarin/python
 uv venv --python 3.12
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main
+uv run python -m qt_kurarin.main --frame-style none
+uv run python -m qt_kurarin.main --frame-style win11
+uv run python -m qt_kurarin.main --frame-style mac
 ```
 
 ## Run from PyPI
@@ -38,4 +41,7 @@ rm -r ./.venv/ # if already exist
 uv venv --python 3.12
 uv pip install qt-kurarin
 uv run qt-kurarin
+uv run qt-kurarin --frame-style none
+uv run qt-kurarin --frame-style win11
+uv run qt-kurarin --frame-style mac
 ```
