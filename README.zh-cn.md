@@ -8,6 +8,10 @@
 > **[📖 简体中文(大陆)](README.zh-cn.md)**
 > **[📖 日本語](README.jp.md)**
 
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VincentZyuApps/Qt-Kurarin)
+[![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/qt-kurarin)
+[![PyPI](https://img.shields.io/badge/PyPI-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/qt-kurarin/)
+
 这是一个基于 PyQt6 的重构路线，用来验证[原项目](https://github.com/VincentZyu233/Win-kurarin)核心效果在桌面上的复现方式：
 
 - 多个彼此独立的顶层窗口
@@ -27,7 +31,7 @@
 ```shell
 git clone https://github.com/VincentZyuApps/Qt-Kurarin
 cd Qt-Kurarin/python
-uv venv --python 3.12
+uv venv --python 3.13
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main
 uv run python -m qt_kurarin.main --frame-style none
@@ -41,7 +45,7 @@ uv run qt-kurarin --frame-style mac --verbose
 ## 从 PyPI 运行
 ```shell
 rm -r ./.venv/ # 如果已经存在
-uv venv --python 3.12
+uv venv --python 3.13
 uv pip install qt-kurarin
 # uv pip install qt-kurarin --index-url https://pypi.org/simple  # 镜像源没刷新可试试官方源
 uv run qt-kurarin
