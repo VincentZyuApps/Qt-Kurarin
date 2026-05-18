@@ -53,6 +53,7 @@ class RenderSprite:
 
         x = state.x * global_scale + offset_x + _anchor_offset(width)
         y = state.y * global_scale + offset_y + _anchor_offset(height)
+        status = self._describe_status(time_ms)
         frame = SpriteFrame(
             resource_name=self.definition.resource_name,
             time_ms=time_ms,
@@ -63,8 +64,25 @@ class RenderSprite:
             opacity=max(0.0, min(1.0, state.opacity)),
             scale=state.scale,
             visible=True,
+            status=status,
         )
         return frame
+
+    def _describe_status(self, time_ms: int) -> str:
+        labels: list[str] = []
+        for movement in self.definition.movements:
+            if movement.is_instant:
+                continue
+            if movement.time_start <= time_ms < movement.time_end:
+                if movement.type in {"M", "MX", "MY"} and "moving" not in labels:
+                    labels.append("moving")
+                elif movement.type == "F":
+                    labels.append("fading in" if movement.move_end >= movement.move_from else "fading out")
+                elif movement.type == "S":
+                    labels.append("scaling up" if movement.move_end >= movement.move_from else "scaling down")
+        if not labels:
+            return "holding"
+        return ", ".join(labels)
 
     def _apply_movement(self, state: SpriteState, movement: Movement, time_ms: int) -> None:
         if movement.is_instant or movement.time_end == SENTINEL_END:

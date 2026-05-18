@@ -49,12 +49,20 @@ class SpriteFrame:
     opacity: float
     scale: float
     visible: bool
+    status: str = "holding"
 
 
 @dataclass(slots=True)
 class PlaybackSnapshot:
     time_ms: int
+    total_duration: int
     frame_style: str
     loudness: int
     visible_sprites: list[SpriteFrame] = field(default_factory=list)
+    recent_events: list[str] = field(default_factory=list)
+    scene_summary: str = ""
     total_sprites: int = 0
+    moving_count: int = 0
+    fading_count: int = 0
+    scaling_count: int = 0
+    holding_count: int = 0

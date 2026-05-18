@@ -29,11 +29,15 @@ def compute_frame_layout(content_rect: QRectF, frame_style: str) -> FrameLayout:
 
     if frame_style == FRAME_STYLE_WIN11:
         top_bar = max(21.0, min(31.0, content_rect.height() * 0.072))
-        border = max(1.0, min(1.4, min(content_rect.width(), content_rect.height()) * 0.0022))
+        border = max(
+            1.0, min(1.4, min(content_rect.width(), content_rect.height()) * 0.0022)
+        )
         radius = 8.0
     else:
         top_bar = max(23.0, min(35.0, content_rect.height() * 0.092))
-        border = max(1.2, min(1.8, min(content_rect.width(), content_rect.height()) * 0.0027))
+        border = max(
+            1.2, min(1.8, min(content_rect.width(), content_rect.height()) * 0.0027)
+        )
         radius = 12.0
 
     outer_rect = QRectF(
@@ -154,11 +158,17 @@ def _make_title_path(layout: FrameLayout) -> QPainterPath:
     return title_path.united(lower_path)
 
 
-def _make_ring(outer_rect: QRectF, outer_radius: float, inner_rect: QRectF, inner_radius: float) -> QPainterPath:
-    return _rounded_path(outer_rect, outer_radius).subtracted(_bottom_rounded_path(inner_rect, inner_radius))
+def _make_ring(
+    outer_rect: QRectF, outer_radius: float, inner_rect: QRectF, inner_radius: float
+) -> QPainterPath:
+    return _rounded_path(outer_rect, outer_radius).subtracted(
+        _bottom_rounded_path(inner_rect, inner_radius)
+    )
 
 
-def _draw_shadow(painter: QPainter, layout: FrameLayout, opacity: float, dy: float) -> None:
+def _draw_shadow(
+    painter: QPainter, layout: FrameLayout, opacity: float, dy: float
+) -> None:
     layers = (
         (1.5, 18),
         (3.0, 13),
@@ -173,7 +183,9 @@ def _draw_shadow(painter: QPainter, layout: FrameLayout, opacity: float, dy: flo
     for spread, alpha in layers:
         expanded_rect = layout.outer_rect.adjusted(-spread, -spread, spread, spread)
         expanded_radius = layout.radius + spread
-        ring = _make_ring(expanded_rect, expanded_radius, previous_rect, previous_radius)
+        ring = _make_ring(
+            expanded_rect, expanded_radius, previous_rect, previous_radius
+        )
         painter.fillPath(ring, QColor(0, 0, 0, int(alpha * opacity)))
         previous_rect = expanded_rect
         previous_radius = expanded_radius
@@ -201,7 +213,9 @@ def _draw_outline(
     )
 
 
-def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacity: float) -> None:
+def _draw_win11_frame(
+    painter: QPainter, layout: FrameLayout, title: str, opacity: float
+) -> None:
     _draw_shadow(painter, layout, opacity, 1.2)
     _draw_outline(
         painter,
@@ -215,14 +229,19 @@ def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacit
     painter.setPen(QColor(92, 95, 100, int(220 * opacity)))
     painter.setFont(QFont("Segoe UI", 7))
     painter.drawText(
-        QRectF(layout.title_bar_rect.left() + 10, layout.title_bar_rect.top(), max(0.0, layout.title_bar_rect.width() - 154), layout.title_bar_rect.height()),
+        QRectF(
+            layout.title_bar_rect.left() + 10,
+            layout.title_bar_rect.top(),
+            max(0.0, layout.title_bar_rect.width() - 207),
+            layout.title_bar_rect.height(),
+        ),
         Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft,
         title.replace("_", " "),
     )
 
     button_center_y = layout.title_bar_rect.center().y() - 0.2
-    cluster_right = layout.title_bar_rect.right() - 11.5
-    spacing = 28.0
+    cluster_right = layout.title_bar_rect.right() - 30
+    spacing = 45.0
     close_center_x = cluster_right
     max_center_x = close_center_x - spacing
     min_center_x = max_center_x - spacing
@@ -257,7 +276,9 @@ def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacit
     )
 
 
-def _draw_mac_frame(painter: QPainter, layout: FrameLayout, title: str, opacity: float) -> None:
+def _draw_mac_frame(
+    painter: QPainter, layout: FrameLayout, title: str, opacity: float
+) -> None:
     _draw_shadow(painter, layout, opacity, 1.0)
     _draw_outline(
         painter,
@@ -275,13 +296,22 @@ def _draw_mac_frame(painter: QPainter, layout: FrameLayout, title: str, opacity:
     ]
     painter.setPen(QPen(QColor(0, 0, 0, int(42 * opacity)), 0.4))
     for color, x in circles:
-        painter.setBrush(QColor(color.red(), color.green(), color.blue(), int(242 * opacity)))
-        painter.drawEllipse(QRectF(x, layout.title_bar_rect.center().y() - 5.5, 11.0, 11.0))
+        painter.setBrush(
+            QColor(color.red(), color.green(), color.blue(), int(242 * opacity))
+        )
+        painter.drawEllipse(
+            QRectF(x, layout.title_bar_rect.center().y() - 5.5, 11.0, 11.0)
+        )
 
     painter.setPen(QColor(96, 74, 81, int(228 * opacity)))
     painter.setFont(QFont("SF Pro Text", 8))
     painter.drawText(
-        QRectF(layout.title_bar_rect.left() + 58, layout.title_bar_rect.top(), max(0.0, layout.title_bar_rect.width() - 116), layout.title_bar_rect.height()),
+        QRectF(
+            layout.title_bar_rect.left() + 58,
+            layout.title_bar_rect.top(),
+            max(0.0, layout.title_bar_rect.width() - 116),
+            layout.title_bar_rect.height(),
+        ),
         Qt.AlignmentFlag.AlignCenter,
         title.replace("_", " "),
     )

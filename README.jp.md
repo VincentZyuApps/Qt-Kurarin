@@ -27,6 +27,10 @@
 - `resources/audio.mp3`
 - `resources/*.png`
 
+> 💡 壁紙を自分で生成：`wallpaper/gen_wallpaper.py`
+
+![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)
+
 ## ソースから実行
 
 ```shell

@@ -27,6 +27,10 @@ The current build reads:
 - `resources/audio.mp3`
 - `resources/*.png`
 
+> 💡 Generate your own wallpaper: `wallpaper/gen_wallpaper.py`
+
+![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)
+
 ## Run from source
 
 ```shell

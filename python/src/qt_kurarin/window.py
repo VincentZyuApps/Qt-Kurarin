@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import deque
 from pathlib import Path
 from threading import Lock
 
@@ -44,9 +45,11 @@ class PlayerWindow(QWidget):
         self._last_verbose_time: int | None = None
         self._last_visible_resources: set[str] = set()
         self._last_visible_frames: dict[str, SpriteFrame] = {}
+        self._recent_events: deque[str] = deque(maxlen=12)
         self._snapshot_lock = Lock()
         self._snapshot = PlaybackSnapshot(
             time_ms=0,
+            total_duration=0,
             frame_style=frame_style,
             loudness=loudness,
             total_sprites=0,
@@ -70,6 +73,7 @@ class PlayerWindow(QWidget):
         self.render_sprites = build_render_sprites(definitions, pixmaps)
         with self._snapshot_lock:
             self._snapshot.total_sprites = len(self.render_sprites)
+            self._snapshot.total_duration = self.max_time
 
     def _load_pixmaps(self, names: set[str]) -> dict[str, QPixmap]:
         pixmaps: dict[str, QPixmap] = {}
@@ -97,6 +101,7 @@ class PlayerWindow(QWidget):
         with self._snapshot_lock:
             return PlaybackSnapshot(
                 time_ms=self._snapshot.time_ms,
+                total_duration=self._snapshot.total_duration,
                 frame_style=self._snapshot.frame_style,
                 loudness=self._snapshot.loudness,
                 visible_sprites=[
@@ -110,16 +115,38 @@ class PlayerWindow(QWidget):
                         opacity=frame.opacity,
                         scale=frame.scale,
                         visible=frame.visible,
+                        status=frame.status,
                     )
                     for frame in self._snapshot.visible_sprites
                 ],
+                recent_events=list(self._snapshot.recent_events),
+                scene_summary=self._snapshot.scene_summary,
                 total_sprites=self._snapshot.total_sprites,
+                moving_count=self._snapshot.moving_count,
+                fading_count=self._snapshot.fading_count,
+                scaling_count=self._snapshot.scaling_count,
+                holding_count=self._snapshot.holding_count,
             )
 
     def _update_snapshot(self, elapsed: int, visible_frames: list[SpriteFrame]) -> None:
+        visible_frames = sorted(
+            visible_frames,
+            key=lambda frame: (frame.width * frame.height * frame.opacity, frame.opacity),
+            reverse=True,
+        )
+        moving_count = sum("moving" in frame.status for frame in visible_frames)
+        fading_count = sum("fading" in frame.status for frame in visible_frames)
+        scaling_count = sum("scaling" in frame.status for frame in visible_frames)
+        holding_count = sum(frame.status == "holding" for frame in visible_frames)
         with self._snapshot_lock:
             self._snapshot.time_ms = elapsed
             self._snapshot.visible_sprites = visible_frames
+            self._snapshot.recent_events = list(self._recent_events)
+            self._snapshot.scene_summary = self._make_scene_summary(visible_frames)
+            self._snapshot.moving_count = moving_count
+            self._snapshot.fading_count = fading_count
+            self._snapshot.scaling_count = scaling_count
+            self._snapshot.holding_count = holding_count
 
     def paintEvent(self, event) -> None:  # type: ignore[override]
         del event
@@ -159,14 +186,13 @@ class PlayerWindow(QWidget):
             painter.drawPixmap(content_rect.toRect(), sprite.pixmap)
             painter.restore()
 
-        if self.verbose:
-            self._log_verbose_events(
-                elapsed=elapsed,
-                global_scale=global_scale,
-                offset_x=offset_x,
-                offset_y=offset_y,
-                visible_by_resource=visible_by_resource,
-            )
+        self._log_verbose_events(
+            elapsed=elapsed,
+            global_scale=global_scale,
+            offset_x=offset_x,
+            offset_y=offset_y,
+            visible_by_resource=visible_by_resource,
+        )
         self._update_snapshot(elapsed, visible_frames)
         painter.end()
 
@@ -200,6 +226,33 @@ class PlayerWindow(QWidget):
             return "xy motion"
         return ""
 
+    def _emit_event(self, time_ms: int, message: str) -> None:
+        line = f"[{time_ms:6d} ms] {message}"
+        self._recent_events.append(line)
+        if self.verbose:
+            print(line, flush=True)
+
+    def _make_scene_summary(self, visible_frames: list[SpriteFrame]) -> str:
+        if not visible_frames:
+            return "Stage is empty right now."
+        lead = max(visible_frames, key=lambda frame: frame.width * frame.height * max(frame.opacity, 0.001))
+        active_bits = []
+        moving = sum("moving" in frame.status for frame in visible_frames)
+        fading = sum("fading" in frame.status for frame in visible_frames)
+        scaling = sum("scaling" in frame.status for frame in visible_frames)
+        if moving:
+            active_bits.append(f"{moving} moving")
+        if fading:
+            active_bits.append(f"{fading} fading")
+        if scaling:
+            active_bits.append(f"{scaling} scaling")
+        if not active_bits:
+            active_bits.append("quiet hold")
+        return (
+            f"Lead: {lead.resource_name} ({lead.status}). "
+            f"Scene: {len(visible_frames)} visible sprites, {', '.join(active_bits)}."
+        )
+
     def _log_verbose_events(
         self,
         elapsed: int,
@@ -214,7 +267,7 @@ class PlayerWindow(QWidget):
         current_visible_resources = set(visible_by_resource)
         if self._last_verbose_time is None:
             for frame in visible_by_resource.values():
-                print(f"[{elapsed:6d} ms] show {self._log_sprite_frame(frame)}", flush=True)
+                self._emit_event(elapsed, f"show {self._log_sprite_frame(frame)}")
             self._last_verbose_time = elapsed
             self._last_visible_resources = current_visible_resources
             self._last_visible_frames = dict(visible_by_resource)
@@ -224,14 +277,14 @@ class PlayerWindow(QWidget):
 
         for resource_name in sorted(current_visible_resources - self._last_visible_resources):
             frame = visible_by_resource[resource_name]
-            print(f"[{elapsed:6d} ms] show {self._log_sprite_frame(frame)}", flush=True)
+            self._emit_event(elapsed, f"show {self._log_sprite_frame(frame)}")
 
         for resource_name in sorted(self._last_visible_resources - current_visible_resources):
             frame = self._last_visible_frames.get(resource_name)
             if frame is not None:
-                print(f"[{elapsed:6d} ms] hide {self._log_sprite_frame(frame)}", flush=True)
+                self._emit_event(elapsed, f"hide {self._log_sprite_frame(frame)}")
             else:
-                print(f"[{elapsed:6d} ms] hide {resource_name}", flush=True)
+                self._emit_event(elapsed, f"hide {resource_name}")
 
         for sprite in self.render_sprites:
             for movement in sprite.definition.movements:
@@ -241,39 +294,39 @@ class PlayerWindow(QWidget):
                     suffix = f" {detail}" if detail else ""
                     if movement.is_instant:
                         if frame is not None:
-                            print(
-                                f"[{movement.time_start:6d} ms] {self._movement_label(movement)} {self._log_sprite_frame(frame)}{suffix}",
-                                flush=True,
+                            self._emit_event(
+                                movement.time_start,
+                                f"{self._movement_label(movement)} {self._log_sprite_frame(frame)}{suffix}",
                             )
                         else:
-                            print(
-                                f"[{movement.time_start:6d} ms] {self._movement_label(movement)} {sprite.definition.resource_name}{suffix}",
-                                flush=True,
+                            self._emit_event(
+                                movement.time_start,
+                                f"{self._movement_label(movement)} {sprite.definition.resource_name}{suffix}",
                             )
                     else:
                         if frame is not None:
-                            print(
-                                f"[{movement.time_start:6d} ms] {self._movement_label(movement)}-start {self._log_sprite_frame(frame)}{suffix}",
-                                flush=True,
+                            self._emit_event(
+                                movement.time_start,
+                                f"{self._movement_label(movement)}-start {self._log_sprite_frame(frame)}{suffix}",
                             )
                         else:
-                            print(
-                                f"[{movement.time_start:6d} ms] {self._movement_label(movement)}-start {sprite.definition.resource_name}{suffix}",
-                                flush=True,
+                            self._emit_event(
+                                movement.time_start,
+                                f"{self._movement_label(movement)}-start {sprite.definition.resource_name}{suffix}",
                             )
                 if not movement.is_instant and last_time < movement.time_end <= elapsed:
                     frame = sprite.sample_frame(movement.time_end, global_scale, offset_x, offset_y)
                     detail = self._movement_detail(movement)
                     suffix = f" {detail}" if detail else ""
                     if frame is not None:
-                        print(
-                            f"[{movement.time_end:6d} ms] {self._movement_label(movement)}-end {self._log_sprite_frame(frame)}{suffix}",
-                            flush=True,
+                        self._emit_event(
+                            movement.time_end,
+                            f"{self._movement_label(movement)}-end {self._log_sprite_frame(frame)}{suffix}",
                         )
                     else:
-                        print(
-                            f"[{movement.time_end:6d} ms] {self._movement_label(movement)}-end {sprite.definition.resource_name}{suffix}",
-                            flush=True,
+                        self._emit_event(
+                            movement.time_end,
+                            f"{self._movement_label(movement)}-end {sprite.definition.resource_name}{suffix}",
                         )
 
         self._last_verbose_time = elapsed
