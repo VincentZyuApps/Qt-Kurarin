@@ -21,15 +21,15 @@
 - フェードイン / フェードアウト
 - 常時最前面表示
 
+| ![Windows 11](docs/images/preview.windows11.png) | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) | ![macOS 14](docs/images/preview.macos14.png) |
+|:-:|:-:|:-:|
+| Windows 11 — `--frame-style win11` | Debian 13 + KDE Wayland | macOS 14 Sonoma |
+
 現在のビルドで読み込むもの：
 
 - `data/script.txt`
 - `resources/audio.mp3`
 - `resources/*.png`
-
-> 💡 壁紙を自分で生成：`wallpaper/gen_wallpaper.py`
-
-![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)
 
 ## ソースから実行
 
@@ -72,6 +72,12 @@ uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
+
+> 💡 壁紙を自分で生成：[`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
+>
+> 💡 壁紙画像をクリックしてフル解像度で表示、右クリックで保存。
+
+[![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)
 
 ## プラットフォーム補足
 

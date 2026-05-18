@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-import sys
+import socket
 from threading import Lock, Thread
 from typing import Callable
 
@@ -80,8 +80,9 @@ def snapshot_from_json(line: str) -> PlaybackSnapshot:
     )
 
 
-class StdioSnapshotFeed:
-    def __init__(self) -> None:
+class SocketSnapshotFeed:
+    def __init__(self, port: int) -> None:
+        self._port = port
         self._lock = Lock()
         self._snapshot = PlaybackSnapshot(
             time_ms=0,
@@ -127,21 +128,26 @@ class StdioSnapshotFeed:
 
     def start_reader(self, app: "PlaybackTui") -> Thread:
         def run() -> None:
-            for line in sys.stdin:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    snapshot = snapshot_from_json(line)
-                except json.JSONDecodeError:
-                    continue
-                self.set_snapshot(snapshot)
+            try:
+                with socket.create_connection(("127.0.0.1", self._port)) as connection:
+                    reader = connection.makefile("r", encoding="utf-8")
+                    for line in reader:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        try:
+                            snapshot = snapshot_from_json(line)
+                        except json.JSONDecodeError:
+                            continue
+                        self.set_snapshot(snapshot)
+            except OSError as exc:
+                print(f"[tui] failed to connect/read snapshot stream: {exc}", flush=True)
             try:
                 app.call_from_thread(app.exit)
             except Exception:
                 pass
 
-        thread = Thread(target=run, name="qt-kurarin-tui-stdin", daemon=True)
+        thread = Thread(target=run, name="qt-kurarin-tui-socket", daemon=True)
         thread.start()
         return thread
 
@@ -287,8 +293,8 @@ class PlaybackTui(App[None]):
         sprites_body.update("\n".join(lines))
 
 
-def run_stdio_tui() -> int:
-    feed = StdioSnapshotFeed()
+def run_socket_tui(port: int) -> int:
+    feed = SocketSnapshotFeed(port)
     app = PlaybackTui(
         snapshot_provider=feed.get_snapshot,
         shutdown_callback=lambda: None,

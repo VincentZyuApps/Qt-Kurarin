@@ -21,15 +21,15 @@ This is a PyQt6 reconstruction track for validating the core effect of the [orig
 - fade in / fade out
 - always-on-top presentation
 
+| ![Windows 11](docs/images/preview.windows11.png) | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) | ![macOS 14](docs/images/preview.macos14.png) |
+|:-:|:-:|:-:|
+| Windows 11 — `--frame-style win11` | Debian 13 + KDE Wayland | macOS 14 Sonoma |
+
 The current build reads:
 
 - `data/script.txt`
 - `resources/audio.mp3`
 - `resources/*.png`
-
-> 💡 Generate your own wallpaper: `wallpaper/gen_wallpaper.py`
-
-![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)
 
 ## Run from source
 
@@ -72,6 +72,12 @@ uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
+
+> 💡 Generate your own wallpaper: [`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
+>
+> 💡 Click the wallpaper image to view full resolution, then right-click to save.
+
+[![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)
 
 ## Platform Notes
 
