@@ -59,6 +59,7 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         formatter_class=CliHelpFormatter,
     )
     parser.add_argument(
+        "-f",
         "--frame-style",
         choices=FRAME_STYLE_CHOICES,
         default=FRAME_STYLE_NONE,
@@ -84,6 +85,7 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         help=argparse.SUPPRESS,
     )
     parser.add_argument(
+        "-n",
         "--hide-taskbar-button",
         action="store_true",
         help="Hide the taskbar/dock icon for the animated window. "

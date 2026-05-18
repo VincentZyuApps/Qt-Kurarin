@@ -57,10 +57,10 @@ uv run qt-kurarin [オプション]
 
 | フラグ | 説明 | デフォルト |
 |--------|------|-----------|
-| `--frame-style <STYLE>` | ウィンドウ枠スタイル：`none`、`win11`、`mac` | `none` |
+| `-f, --frame-style <STYLE>` | ウィンドウ枠スタイル：`none`、`win11`、`mac` | `none` |
 | `-v`, `--verbose` | スプライト再生の詳細をコンソールに表示 | オフ |
 | `-t`, `--textual-tui` | Textual TUI で再生詳細を表示 | オフ |
-| `--hide-taskbar-button` | タスクバー/ドックアイコンを非表示（Win: ✅ 確実、macOS: 🟡 非表示かも、Linux: ❓ コンポジター次第） | オフ |
+| `-n, --hide-taskbar-button` | タスクバー/ドックアイコンを非表示（Win: ✅ 確実、macOS: 🟡 非表示かも、Linux: ❓ コンポジター次第） | オフ |
 | `-l`, `--loudness <0-100>` | オーディオ音量パーセント | `100` |
 
 ## 使用例
@@ -72,3 +72,19 @@ uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
+
+## プラットフォーム補足
+
+### `--hide-taskbar-button`
+
+各プラットフォームにおける動作の技術的解説：
+
+**Windows** ✅ 確実。`Tool` ウィンドウフラグを設定し、Win32 API の `WS_EX_TOOLWINDOW` 拡張スタイルに相当します。タスクバーや Alt+Tab 一覧には表示されませんが、最前面表示は維持されます。
+
+**macOS** 🟡 おそらく非表示、保証なし。`WindowStaysOnTopHint` と組み合わせるとフローティングツールパネルとして扱われ、通常は Dock アイコンが表示されません。ただし一部の macOS バージョンでは Dock に表示される場合があります。
+
+**Linux/Wayland** ❌ ほぼ無効。Wayland コンポジターがタスクバーの動作を独立して制御するためです — KWin (KDE) は `Tool` フラグを完全に無視し、GNOME/Mutter は部分的に無視し、wlroots 系（Hyprland、Sway）も通常は無視します。
+
+**Linux/X11** 🟡 ウィンドウマネージャー次第。KWin は `Tool` フラグを尊重しタスクバーエントリを非表示にします。GNOME/Mutter は部分的に尊重します。タイル型 WM（i3、bspwm）には従来のタスクバー概念がないため、フラグに可視効果はありません。
+
+> 📝 本情報は経験およびオンライン調査に基づきます。実際の動作は OS バージョン、デスクトップ環境、設定によって異なる場合があります。

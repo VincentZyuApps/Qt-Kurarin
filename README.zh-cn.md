@@ -57,10 +57,10 @@ uv run qt-kurarin [选项]
 
 | 参数 | 说明 | 默认值 |
 |------|------|--------|
-| `--frame-style <STYLE>` | 窗口边框样式：`none`、`win11`、`mac` | `none` |
+| `-f, --frame-style <STYLE>` | 窗口边框样式：`none`、`win11`、`mac` | `none` |
 | `-v`, `--verbose` | 在控制台实时输出精灵播放调试信息 | 关闭 |
 | `-t`, `--textual-tui` | 在 Textual TUI 中实时显示播放详情 | 关闭 |
-| `--hide-taskbar-button` | 隐藏任务栏/程序坞图标（Win: ✅ 可靠，macOS: 🟡 可能隐藏，Linux: ❓ 取决于合成器） | 关闭 |
+| `-n, --hide-taskbar-button` | 隐藏任务栏/程序坞图标（Win: ✅ 可靠，macOS: 🟡 可能隐藏，Linux: ❓ 取决于合成器） | 关闭 |
 | `-l`, `--loudness <0-100>` | 音频音量百分比 | `100` |
 
 ## 示例
@@ -72,3 +72,19 @@ uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
+
+## 平台说明
+
+### `--hide-taskbar-button`
+
+该参数在各平台行为的技术详解：
+
+**Windows** ✅ 可靠。设置 `Tool` 窗口标志，对应 Win32 API 的 `WS_EX_TOOLWINDOW` 扩展样式。窗口不会出现在任务栏或 Alt+Tab 列表中，但仍保持置顶显示。
+
+**macOS** 🟡 大概率生效，不保证。与 `WindowStaysOnTopHint` 结合使用时，macOS 将其视为浮动工具面板，通常没有 Dock 图标。但在部分 macOS 版本上，单一 Tool 窗口可能仍会显示在 Dock 中。
+
+**Linux/Wayland** ❌ 几乎不生效。Wayland 协议下，合成器独立控制任务栏行为 — KWin (KDE) 完全忽略 `Tool` 标志，GNOME/Mutter 部分忽略，wlroots 系合成器（Hyprland、Sway）通常也忽略。
+
+**Linux/X11** 🟡 取决于窗口管理器。KWin 尊重 `Tool` 标志并隐藏任务栏条目；GNOME/Mutter 部分尊重；平铺 WM（i3、bspwm）没有传统任务栏概念，标志无可见效果。
+
+> 📝 以上信息基于经验及互联网搜索资料得出，仅供参考。实际行为可能因操作系统版本、桌面环境及配置不同而有所差异。

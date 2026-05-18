@@ -16,6 +16,38 @@ from .player import AudioClock
 from .sprite import RenderSprite, build_render_sprites
 
 
+def resolve_app_icon_path(package_dir: Path) -> Path | None:
+    logo_dir = package_dir / "resources" / "logo"
+    candidates: list[Path] = []
+    if sys.platform == "darwin":
+        candidates.extend(
+            [
+                logo_dir / "logo.icns",
+                logo_dir / "logo_macos_512.png",
+                logo_dir / "logo.png",
+            ]
+        )
+    elif sys.platform.startswith("win"):
+        candidates.extend(
+            [
+                logo_dir / "logo.ico",
+                logo_dir / "logo.png",
+            ]
+        )
+    else:
+        candidates.extend(
+            [
+                logo_dir / "logo.png",
+                logo_dir / "logo.ico",
+            ]
+        )
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
+
+
 class PlayerWindow(QWidget):
     def __init__(
         self,
@@ -37,6 +69,7 @@ class PlayerWindow(QWidget):
             self.setGeometry(screen.geometry())
 
         package_dir = Path(__file__).resolve().parent
+        self.package_dir = package_dir
         self.script_path = package_dir / "data" / "script.txt"
         self.resources_dir = package_dir / "resources"
         self.audio_path = self.resources_dir / "audio.mp3"
@@ -81,8 +114,8 @@ class PlayerWindow(QWidget):
             )
 
     def _setup_window_icon(self) -> None:
-        icon_path = self.resources_dir / "logo" / "logo.png"
-        if icon_path.exists():
+        icon_path = resolve_app_icon_path(self.package_dir)
+        if icon_path is not None:
             self.setWindowIcon(QIcon(str(icon_path)))
         self.setWindowTitle("Qt-Kurarin")
 

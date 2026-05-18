@@ -57,10 +57,10 @@ uv run qt-kurarin [OPTIONS]
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--frame-style <STYLE>` | Window frame style: `none`, `win11`, `mac` | `none` |
+| `-f, --frame-style <STYLE>` | Window frame style: `none`, `win11`, `mac` | `none` |
 | `-v`, `--verbose` | Print live sprite playback details to the console | off |
 | `-t`, `--textual-tui` | Show live playback details in a Textual TUI | off |
-| `--hide-taskbar-button` | Hide the taskbar/dock icon (Win: ✅, macOS: 🟡 may hide, Linux: ❓ depends on compositor) | off |
+| `-n, --hide-taskbar-button` | Hide the taskbar/dock icon (Win: ✅, macOS: 🟡 may hide, Linux: ❓ depends on compositor) | off |
 | `-l`, `--loudness <0-100>` | Audio loudness percentage | `100` |
 
 ## Examples
@@ -72,3 +72,19 @@ uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
+
+## Platform Notes
+
+### `--hide-taskbar-button`
+
+Technical breakdown of how this flag behaves across operating systems:
+
+**Windows** ✅ Reliable. Sets the `Tool` window flag, which maps to the Win32 `WS_EX_TOOLWINDOW` extended style. The window will not appear in the taskbar or Alt+Tab list, but remains always-on-top.
+
+**macOS** 🟡 Likely works, not guaranteed. When combined with `WindowStaysOnTopHint`, macOS treats the window as a floating utility panel, which typically lacks a Dock icon. However, on some macOS versions, a single Tool window may still appear in the Dock.
+
+**Linux/Wayland** ❌ Unlikely to work. Wayland compositors control taskbar behavior independently — KWin (KDE) ignores the `Tool` flag entirely, GNOME/Mutter partially ignores it, and wlroots-based compositors (Hyprland, Sway) generally ignore it as well.
+
+**Linux/X11** 🟡 Depends on the window manager. KWin respects the `Tool` flag and hides the taskbar entry. GNOME/Mutter partially respects it. Tiling WMs (i3, bspwm) have no traditional taskbar concept, so the flag has no visible effect.
+
+> 📝 This information is based on experience and online research. Actual behavior may vary depending on your specific OS version, desktop environment, and configuration.

@@ -1,15 +1,17 @@
 from __future__ import annotations
 
+from pathlib import Path
 import signal
 import subprocess
 import sys
 
 from PyQt6.QtCore import QTimer
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
 
 from .cli import parse_args
 from .tui import run_stdio_tui, snapshot_to_json
-from .window import PlayerWindow
+from .window import PlayerWindow, resolve_app_icon_path
 
 
 ANSI_GREEN = "\033[92m"
@@ -28,6 +30,10 @@ def main() -> int:
 
     app = QApplication(sys.argv)
     app.setApplicationName("Qt-Kurarin")
+    package_dir = Path(__file__).resolve().parent
+    icon_path = resolve_app_icon_path(package_dir)
+    if icon_path is not None:
+        app.setWindowIcon(QIcon(str(icon_path)))
 
     window = PlayerWindow(
         frame_style=options.frame_style,
