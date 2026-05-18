@@ -45,6 +45,7 @@ class AppOptions:
     frame_style: str = FRAME_STYLE_NONE
     verbose: bool = False
     textual_tui: bool = False
+    tui_stdio: bool = False
     loudness: int = 100
 
 
@@ -75,6 +76,11 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         help="Show live playback details in a Textual TUI.",
     )
     parser.add_argument(
+        "--tui-stdio",
+        action="store_true",
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
         "-l",
         "--loudness",
         type=_loudness_value,
@@ -87,5 +93,6 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         frame_style=args.frame_style,
         verbose=args.verbose,
         textual_tui=args.textual_tui,
+        tui_stdio=args.tui_stdio,
         loudness=args.loudness,
     )
