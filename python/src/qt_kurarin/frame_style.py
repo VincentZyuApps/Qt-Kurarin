@@ -215,14 +215,14 @@ def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacit
     painter.setPen(QColor(92, 95, 100, int(220 * opacity)))
     painter.setFont(QFont("Segoe UI", 7))
     painter.drawText(
-        QRectF(layout.title_bar_rect.left() + 10, layout.title_bar_rect.top(), max(0.0, layout.title_bar_rect.width() - 126), layout.title_bar_rect.height()),
+        QRectF(layout.title_bar_rect.left() + 10, layout.title_bar_rect.top(), max(0.0, layout.title_bar_rect.width() - 154), layout.title_bar_rect.height()),
         Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft,
         title.replace("_", " "),
     )
 
     button_center_y = layout.title_bar_rect.center().y() - 0.2
-    cluster_right = layout.title_bar_rect.right() - 10.5
-    spacing = 22.0
+    cluster_right = layout.title_bar_rect.right() - 11.5
+    spacing = 28.0
     close_center_x = cluster_right
     max_center_x = close_center_x - spacing
     min_center_x = max_center_x - spacing
@@ -234,26 +234,26 @@ def _draw_win11_frame(painter: QPainter, layout: FrameLayout, title: str, opacit
     painter.setBrush(Qt.BrushStyle.NoBrush)
 
     painter.drawLine(
-        QPointF(min_center_x - 4.2, button_center_y + 2.1),
-        QPointF(min_center_x + 4.2, button_center_y + 2.1),
+        QPointF(min_center_x - 4.8, button_center_y + 2.2),
+        QPointF(min_center_x + 4.8, button_center_y + 2.2),
     )
 
     painter.drawRect(
         QRectF(
-            max_center_x - 4.3,
-            button_center_y - 4.3,
-            8.6,
-            8.6,
+            max_center_x - 4.9,
+            button_center_y - 4.9,
+            9.8,
+            9.8,
         )
     )
 
     painter.drawLine(
-        QPointF(close_center_x - 3.8, button_center_y - 3.8),
-        QPointF(close_center_x + 3.8, button_center_y + 3.8),
+        QPointF(close_center_x - 4.4, button_center_y - 4.4),
+        QPointF(close_center_x + 4.4, button_center_y + 4.4),
     )
     painter.drawLine(
-        QPointF(close_center_x - 3.8, button_center_y + 3.8),
-        QPointF(close_center_x + 3.8, button_center_y - 3.8),
+        QPointF(close_center_x - 4.4, button_center_y + 4.4),
+        QPointF(close_center_x + 4.4, button_center_y - 4.4),
     )
 
 

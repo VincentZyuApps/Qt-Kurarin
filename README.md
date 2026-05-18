@@ -31,29 +31,39 @@ The current build reads:
 
 ```shell
 git clone https://github.com/VincentZyuApps/Qt-Kurarin
+# or from gitee: 
+git clone https://gitee.com/vincent-zyu/qt-kurarin
 cd Qt-Kurarin/python
 uv venv --python 3.13
 uv pip install -r ./requirements.txt
-uv run python -m qt_kurarin.main
-uv run python -m qt_kurarin.main --frame-style none
-uv run python -m qt_kurarin.main --frame-style win11
-uv run python -m qt_kurarin.main --frame-style mac
-uv run qt-kurarin --frame-style none --verbose
-uv run qt-kurarin --frame-style win11 --verbose
-uv run qt-kurarin --frame-style mac --verbose
+uv run python -m qt_kurarin.main [OPTIONS]
 ```
 
 ## Run from PyPI
+
 ```shell
 rm -r ./.venv/ # if already exist
 uv venv --python 3.13
 uv pip install qt-kurarin
 # uv pip install qt-kurarin --index-url https://pypi.org/simple  # use official index if mirrors are not latest
+uv run qt-kurarin [OPTIONS]
+```
+
+## Options
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--frame-style <STYLE>` | Window frame style: `none`, `win11`, `mac` | `none` |
+| `-v`, `--verbose` | Print live sprite playback details to the console | off |
+| `-t`, `--textual-tui` | Show live playback details in a Textual TUI | off |
+| `-l`, `--loudness <0-100>` | Audio loudness percentage | `100` |
+
+## Examples
+
+```shell
 uv run qt-kurarin
-uv run qt-kurarin --frame-style none
-uv run qt-kurarin --frame-style win11
-uv run qt-kurarin --frame-style mac
-uv run qt-kurarin --frame-style none --verbose
-uv run qt-kurarin --frame-style win11 --verbose
+uv run qt-kurarin --help
+uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
-``` 
+uv run qt-kurarin --loudness 60
+```

@@ -44,6 +44,17 @@ class SpriteFrame:
     time_ms: int
     x: float
     y: float
+    width: float
+    height: float
     opacity: float
     scale: float
     visible: bool
+
+
+@dataclass(slots=True)
+class PlaybackSnapshot:
+    time_ms: int
+    frame_style: str
+    loudness: int
+    visible_sprites: list[SpriteFrame] = field(default_factory=list)
+    total_sprites: int = 0

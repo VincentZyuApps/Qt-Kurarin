@@ -7,6 +7,7 @@ from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QApplication
 
 from .cli import parse_args
+from .tui import TextualTuiHandle
 from .window import PlayerWindow
 
 
@@ -23,8 +24,13 @@ def main() -> int:
     app = QApplication(sys.argv)
     app.setApplicationName("Qt-Kurarin")
 
-    window = PlayerWindow(frame_style=options.frame_style, verbose=options.verbose)
+    window = PlayerWindow(
+        frame_style=options.frame_style,
+        verbose=options.verbose,
+        loudness=options.loudness,
+    )
     exit_announced = False
+    tui_handle: TextualTuiHandle | None = None
 
     def graceful_exit() -> None:
         nonlocal exit_announced
@@ -39,10 +45,20 @@ def main() -> int:
         del signum, frame
         QTimer.singleShot(0, graceful_exit)
 
+    def request_graceful_exit() -> None:
+        QTimer.singleShot(0, graceful_exit)
+
     signal.signal(signal.SIGINT, handle_sigint)
     heartbeat = QTimer()
     heartbeat.start(100)
     heartbeat.timeout.connect(lambda: None)
+
+    if options.textual_tui:
+        tui_handle = TextualTuiHandle(
+            snapshot_provider=window.get_snapshot,
+            shutdown_callback=request_graceful_exit,
+        )
+        tui_handle.start()
 
     window.show()
     window.start()
@@ -50,6 +66,8 @@ def main() -> int:
         return app.exec()
     finally:
         heartbeat.stop()
+        if tui_handle is not None:
+            tui_handle.stop()
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ cd Qt-Kurarin/python
 uv venv --python 3.13
 uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main
+uv run python -m qt_kurarin.main --help
 
 cd Qt-Kurarin/python
 # cd D:\aaaStuffsaaa\from_git\github\Qt-Kurarin\python
@@ -15,4 +16,6 @@ uv publish --publish-url https://test.pypi.org/legacy/
 
 $env:UV_PUBLISH_TOKEN="pypi-你的正式PyPI令牌"
 uv publish --publish-url https://upload.pypi.org/legacy/
+
+uv run python -m compileall src
 ```

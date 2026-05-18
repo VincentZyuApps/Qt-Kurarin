@@ -31,31 +31,39 @@
 
 ```shell
 git clone https://github.com/VincentZyuApps/Qt-Kurarin
-# or from gitee
+# または Gitee からクローン（中国本土で高速）：
 git clone https://gitee.com/vincent-zyu/qt-kurarin
 cd Qt-Kurarin/python
 uv venv --python 3.13
 uv pip install -r ./requirements.txt
-uv run python -m qt_kurarin.main
-uv run python -m qt_kurarin.main --frame-style none
-uv run python -m qt_kurarin.main --frame-style win11
-uv run python -m qt_kurarin.main --frame-style mac
-uv run qt-kurarin --frame-style none --verbose
-uv run qt-kurarin --frame-style win11 --verbose
-uv run qt-kurarin --frame-style mac --verbose
+uv run python -m qt_kurarin.main [オプション]
 ```
 
 ## PyPI から実行
+
 ```shell
 rm -r ./.venv/ # すでに存在する場合
 uv venv --python 3.13
 uv pip install qt-kurarin
 # uv pip install qt-kurarin --index-url https://pypi.org/simple  # ミラーが更新されていない場合は公式ソースを試す
+uv run qt-kurarin [オプション]
+```
+
+## オプション
+
+| フラグ | 説明 | デフォルト |
+|--------|------|-----------|
+| `--frame-style <STYLE>` | ウィンドウ枠スタイル：`none`、`win11`、`mac` | `none` |
+| `-v`, `--verbose` | スプライト再生の詳細をコンソールに表示 | オフ |
+| `-t`, `--textual-tui` | Textual TUI で再生詳細を表示 | オフ |
+| `-l`, `--loudness <0-100>` | オーディオ音量パーセント | `100` |
+
+## 使用例
+
+```shell
 uv run qt-kurarin
-uv run qt-kurarin --frame-style none
-uv run qt-kurarin --frame-style win11
-uv run qt-kurarin --frame-style mac
-uv run qt-kurarin --frame-style none --verbose
-uv run qt-kurarin --frame-style win11 --verbose
+uv run qt-kurarin --help
+uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
+uv run qt-kurarin --loudness 60
 ```

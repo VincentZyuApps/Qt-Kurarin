@@ -31,31 +31,39 @@
 
 ```shell
 git clone https://github.com/VincentZyuApps/Qt-Kurarin
-# or from gitee
+# 或从 Gitee 克隆（国内访问更快）：
 git clone https://gitee.com/vincent-zyu/qt-kurarin
 cd Qt-Kurarin/python
 uv venv --python 3.13
 uv pip install -r ./requirements.txt
-uv run python -m qt_kurarin.main
-uv run python -m qt_kurarin.main --frame-style none
-uv run python -m qt_kurarin.main --frame-style win11
-uv run python -m qt_kurarin.main --frame-style mac
-uv run qt-kurarin --frame-style none --verbose
-uv run qt-kurarin --frame-style win11 --verbose
-uv run qt-kurarin --frame-style mac --verbose
+uv run python -m qt_kurarin.main [选项]
 ```
 
 ## 从 PyPI 运行
+
 ```shell
 rm -r ./.venv/ # 如果已经存在
 uv venv --python 3.13
 uv pip install qt-kurarin
 # uv pip install qt-kurarin --index-url https://pypi.org/simple  # 镜像源没刷新可试试官方源
+uv run qt-kurarin [选项]
+```
+
+## 选项
+
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `--frame-style <STYLE>` | 窗口边框样式：`none`、`win11`、`mac` | `none` |
+| `-v`, `--verbose` | 在控制台实时输出精灵播放调试信息 | 关闭 |
+| `-t`, `--textual-tui` | 在 Textual TUI 中实时显示播放详情 | 关闭 |
+| `-l`, `--loudness <0-100>` | 音频音量百分比 | `100` |
+
+## 示例
+
+```shell
 uv run qt-kurarin
-uv run qt-kurarin --frame-style none
-uv run qt-kurarin --frame-style win11
-uv run qt-kurarin --frame-style mac
-uv run qt-kurarin --frame-style none --verbose
-uv run qt-kurarin --frame-style win11 --verbose
+uv run qt-kurarin --help
+uv run qt-kurarin --frame-style win11 --textual-tui
 uv run qt-kurarin --frame-style mac --verbose
+uv run qt-kurarin --loudness 60
 ```

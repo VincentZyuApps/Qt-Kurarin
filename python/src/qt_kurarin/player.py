@@ -7,11 +7,11 @@ from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 
 
 class AudioClock:
-    def __init__(self, audio_path: Path) -> None:
+    def __init__(self, audio_path: Path, loudness: int = 100) -> None:
         self.audio_path = audio_path
         self.elapsed = QElapsedTimer()
         self.audio_output = QAudioOutput()
-        self.audio_output.setVolume(1.0)
+        self.audio_output.setVolume(max(0.0, min(1.0, loudness / 100.0)))
         self.media_player = QMediaPlayer()
         self.media_player.setAudioOutput(self.audio_output)
         self._audio_loaded = False

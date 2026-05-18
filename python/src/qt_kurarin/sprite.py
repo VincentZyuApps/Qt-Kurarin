@@ -20,6 +20,12 @@ class RenderSprite:
     pixmap: QPixmap
 
     def evaluate(self, time_ms: int, global_scale: float, offset_x: float, offset_y: float) -> tuple[QRectF, float, SpriteFrame] | None:
+        frame = self.sample_frame(time_ms, global_scale, offset_x, offset_y)
+        if frame is None:
+            return None
+        return QRectF(frame.x, frame.y, frame.width, frame.height), frame.opacity, frame
+
+    def sample_frame(self, time_ms: int, global_scale: float, offset_x: float, offset_y: float) -> SpriteFrame | None:
         if self.pixmap.isNull():
             return None
         if self.definition.movements and time_ms < self.definition.movements[0].time_start:
@@ -52,11 +58,13 @@ class RenderSprite:
             time_ms=time_ms,
             x=x,
             y=y,
+            width=width,
+            height=height,
             opacity=max(0.0, min(1.0, state.opacity)),
             scale=state.scale,
             visible=True,
         )
-        return QRectF(x, y, width, height), frame.opacity, frame
+        return frame
 
     def _apply_movement(self, state: SpriteState, movement: Movement, time_ms: int) -> None:
         if movement.is_instant or movement.time_end == SENTINEL_END:
