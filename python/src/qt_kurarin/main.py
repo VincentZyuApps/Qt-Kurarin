@@ -42,6 +42,7 @@ def main() -> int:
         verbose=options.verbose,
         loudness=options.loudness,
         hide_taskbar=options.hide_taskbar,
+        fps=options.fps,
     )
     exit_announced = False
     tui_process: subprocess.Popen[str] | None = None

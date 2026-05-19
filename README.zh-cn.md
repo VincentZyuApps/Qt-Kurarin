@@ -68,6 +68,7 @@ uv run qt-kurarin [选项]
 | `-v`, `--verbose` | 在控制台实时输出精灵播放调试信息 | 关闭 |
 | `-t`, `--textual-tui` | 在 Textual TUI 中实时显示播放详情 | 关闭 |
 | `-n, --hide-taskbar-button` | 隐藏任务栏/程序坞图标（Win: ✅ 可靠，macOS: 🟡 可能隐藏，Linux: ❓ 取决于合成器） | 关闭 |
+| `--fps <rate>` | 动画循环的目标帧率 | `60` |
 | `-l`, `--loudness <0-100>` | 音频音量百分比 | `100` |
 
 ## 示例

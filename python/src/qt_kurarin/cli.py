@@ -50,6 +50,7 @@ class AppOptions:
     tui_port: int | None = None
     tui_debug_stderr: bool = False
     hide_taskbar: bool = False
+    fps: int = 60
     loudness: int = 100
 
 
@@ -81,7 +82,9 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         help="Show live playback details in a Textual TUI.",
     )
     parser.add_argument("--tui-port", type=int, help=argparse.SUPPRESS)
-    parser.add_argument("--tui-debug-stderr", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument(
+        "--tui-debug-stderr", action="store_true", help=argparse.SUPPRESS
+    )
     parser.add_argument(
         "-n",
         "--hide-taskbar-button",
@@ -92,6 +95,13 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         "Linux depends on the compositor (KWin likely works, "
         "GNOME/Wayland likely does not). "
         "Not guaranteed across all platforms.",
+    )
+    parser.add_argument(
+        "--fps",
+        type=int,
+        default=60,
+        metavar="<rate>",
+        help="Target frame rate for the animation loop (default: 60).",
     )
     parser.add_argument(
         "-l",
@@ -109,5 +119,6 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         tui_port=args.tui_port,
         tui_debug_stderr=args.tui_debug_stderr,
         hide_taskbar=args.hide_taskbar_button,
+        fps=args.fps,
         loudness=args.loudness,
     )

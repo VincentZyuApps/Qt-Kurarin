@@ -68,6 +68,7 @@ uv run qt-kurarin [OPTIONS]
 | `-v`, `--verbose` | Print live sprite playback details to the console | off |
 | `-t`, `--textual-tui` | Show live playback details in a Textual TUI | off |
 | `-n, --hide-taskbar-button` | Hide the taskbar/dock icon (Win: ✅, macOS: 🟡 may hide, Linux: ❓ depends on compositor) | off |
+| `--fps <rate>` | Target frame rate for the animation loop | `60` |
 | `-l`, `--loudness <0-100>` | Audio loudness percentage | `100` |
 
 ## Examples

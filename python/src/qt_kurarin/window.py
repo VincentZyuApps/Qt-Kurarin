@@ -55,9 +55,11 @@ class PlayerWindow(QWidget):
         verbose: bool = False,
         loudness: int = 100,
         hide_taskbar: bool = False,
+        fps: int = 60,
     ) -> None:
         super().__init__(None)
         self.hide_taskbar = hide_taskbar
+        self.fps = fps
         self._apply_window_flags()
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
@@ -94,7 +96,7 @@ class PlayerWindow(QWidget):
         )
 
         self.timer = QTimer(self)
-        self.timer.setInterval(16)
+        self.timer.setInterval(max(1, 1000 // self.fps))
         self.timer.timeout.connect(self._tick)
 
         self._setup_window_icon()
