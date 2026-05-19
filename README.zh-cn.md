@@ -81,9 +81,11 @@ uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
 
+## 壁纸
+
 > 💡 可以自行生成壁纸：[`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
->
 > 💡 点击壁纸图片可查看原分辨率，右键另存为即可保存。
+> 🎨 壁纸尺寸：1600×900 px — 基础色：`#FFD0D8`（柔粉色）
 
 [![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)
 

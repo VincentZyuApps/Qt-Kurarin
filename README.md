@@ -81,9 +81,13 @@ uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
 
+## Wallpaper
+
 > 💡 Generate your own wallpaper: [`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
 >
 > 💡 Click the wallpaper image to view full resolution, then right-click to save.
+>
+> 🎨 Wallpaper size: 1600×900 px — base color: `#FFD0D8` (soft pink)
 
 [![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)
 

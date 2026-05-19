@@ -81,9 +81,11 @@ uv run qt-kurarin --frame-style mac --verbose
 uv run qt-kurarin --loudness 60
 ```
 
+## 壁紙
+
 > 💡 壁紙を自分で生成：[`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
->
 > 💡 壁紙画像をクリックしてフル解像度で表示、右クリックで保存。
+> 🎨 壁紙サイズ：1600×900 px — ベースカラー：`#FFD0D8`（ソフトピンク）
 
 [![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)
 
