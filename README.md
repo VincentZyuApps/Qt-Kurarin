@@ -58,6 +58,8 @@ uv venv --python 3.13
 uv pip install qt-kurarin
 # uv pip install qt-kurarin --index-url https://pypi.org/simple  # use official index if mirrors are not latest
 uv run qt-kurarin [OPTIONS]
+# qt-kurarin is also a regular Python package; run it with:
+uv run python -m qt_kurarin.main [OPTIONS]
 ```
 
 ## Options
@@ -84,9 +86,7 @@ uv run qt-kurarin --loudness 60
 ## Wallpaper
 
 > 💡 Generate your own wallpaper: [`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
->
 > 💡 Click the wallpaper image to view full resolution, then right-click to save.
->
 > 🎨 Wallpaper size: 1600×900 px — base color: `#FFD0D8` (soft pink)
 
 [![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)

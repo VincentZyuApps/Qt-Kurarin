@@ -2,7 +2,7 @@
 
 # Qt-Kurarin Python 原型
 
-> Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music
+> 🖥️ Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music 🎵
 
 > **[📖 English](README.md)**
 > **[📖 简体中文(大陆)](README.zh-cn.md)**
@@ -58,6 +58,8 @@ uv venv --python 3.13
 uv pip install qt-kurarin
 # uv pip install qt-kurarin --index-url https://pypi.org/simple  # 镜像源没刷新可试试官方源
 uv run qt-kurarin [选项]
+# qt-kurarin 也是一个普通的 Python 包，也可以用以下方式运行：
+uv run python -m qt_kurarin.main [选项]
 ```
 
 ## 选项
