@@ -2,7 +2,7 @@
 
 # Qt-Kurarin Python Prototype
 
-> Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music
+> 🖥️ Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music 🎵
 
 > **[📖 English](README.md)**
 > **[📖 简体中文(大陆)](README.zh-cn.md)**
@@ -27,6 +27,7 @@ This is a PyQt6 reconstruction track for validating the core effect of the [orig
 |:---|:---:|
 | Windows 11 | ![Windows 11](docs/images/preview.windows11.png) |
 | Debian 13 + KDE Wayland | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) |
+| Ubuntu 24.04 + LXQt X11 | ![Ubuntu 24.04 + LXQt](docs/images/preview.ubuntu24.lxqt.x11.png) |
 | macOS 14 Sonoma | ![macOS 14](docs/images/preview.macos14.png) |
 
 The current build reads:

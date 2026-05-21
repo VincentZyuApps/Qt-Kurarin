@@ -27,6 +27,7 @@
 |:---|:---:|
 | Windows 11 | ![Windows 11](docs/images/preview.windows11.png) |
 | Debian 13 + KDE Wayland | ![Debian 13 + KDE](docs/images/preview.debian13.kde.wayland.png) |
+| Ubuntu 24.04 + LXQt X11 | ![Ubuntu 24.04 + LXQt](docs/images/preview.ubuntu24.lxqt.x11.png) |
 | macOS 14 Sonoma | ![macOS 14](docs/images/preview.macos14.png) |
 
 現在のビルドで読み込むもの：
