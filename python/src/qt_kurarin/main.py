@@ -39,7 +39,7 @@ def main() -> int:
 
     window = PlayerWindow(
         frame_style=options.frame_style,
-        verbose=options.verbose,
+        console_mode=options.console_mode,
         loudness=options.loudness,
         hide_taskbar=options.hide_taskbar,
         fps=options.fps,
@@ -86,7 +86,7 @@ def main() -> int:
     heartbeat.start(100)
     heartbeat.timeout.connect(lambda: None)
 
-    if options.textual_tui:
+    if options.console_mode == "tui":
         tui_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         tui_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         tui_server.bind(("127.0.0.1", 0))

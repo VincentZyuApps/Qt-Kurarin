@@ -45,8 +45,7 @@ FRAME_STYLE_CHOICES = (
 @dataclass(slots=True)
 class AppOptions:
     frame_style: str = FRAME_STYLE_NONE
-    verbose: bool = False
-    textual_tui: bool = False
+    console_mode: str = "tui"
     tui_port: int | None = None
     tui_debug_stderr: bool = False
     hide_taskbar: bool = False
@@ -61,25 +60,20 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         formatter_class=CliHelpFormatter,
     )
     parser.add_argument(
-        "-f",
+        "-s",
         "--frame-style",
         choices=FRAME_STYLE_CHOICES,
         default=FRAME_STYLE_NONE,
         metavar="<style>",
         help="Window-like frame style for each animated sprite.",
     )
-    output_group = parser.add_mutually_exclusive_group()
-    output_group.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        help="Print live sprite playback details to the console.",
-    )
-    output_group.add_argument(
-        "-t",
-        "--textual-tui",
-        action="store_true",
-        help="Show live playback details in a Textual TUI.",
+    parser.add_argument(
+        "-c",
+        "--console-mode",
+        choices=("tui", "debug", "silent"),
+        default="tui",
+        metavar="<mode>",
+        help="Console output mode: tui (Textual TUI), debug (verbose console), silent (no output).",
     )
     parser.add_argument("--tui-port", type=int, help=argparse.SUPPRESS)
     parser.add_argument(
@@ -97,6 +91,7 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
         "Not guaranteed across all platforms.",
     )
     parser.add_argument(
+        "-f",
         "--fps",
         type=int,
         default=60,
@@ -114,8 +109,7 @@ def parse_args(argv: list[str] | None = None) -> AppOptions:
     args = parser.parse_args(argv)
     return AppOptions(
         frame_style=args.frame_style,
-        verbose=args.verbose,
-        textual_tui=args.textual_tui,
+        console_mode=args.console_mode,
         tui_port=args.tui_port,
         tui_debug_stderr=args.tui_debug_stderr,
         hide_taskbar=args.hide_taskbar_button,

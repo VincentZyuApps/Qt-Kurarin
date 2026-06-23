@@ -67,11 +67,10 @@ uv run python -m qt_kurarin.main [オプション]
 
 | フラグ | 説明 | デフォルト |
 |--------|------|-----------|
-| `-f, --frame-style <STYLE>` | ウィンドウ枠スタイル：`none`、`win11`、`mac` | `none` |
-| `-v`, `--verbose` | スプライト再生の詳細をコンソールに表示 | オフ |
-| `-t`, `--textual-tui` | Textual TUI で再生詳細を表示 | オフ |
+| `-s, --frame-style <STYLE>` | ウィンドウ枠スタイル：`none`、`win11`、`mac` | `none` |
+| `-c, --console-mode <MODE>` | 出力モード：`tui`（Textual TUI）、`debug`（詳細コンソール）、`silent`（出力なし） | `tui` |
 | `-n, --hide-taskbar-button` | タスクバー/ドックアイコンを非表示（Win: ✅ 確実、macOS: 🟡 非表示かも、Linux: ❓ コンポジター次第） | オフ |
-| `--fps <rate>` | アニメーションループの目標フレームレート | `60` |
+| `-f, --fps <rate>` | アニメーションループの目標フレームレート | `60` |
 | `-l`, `--loudness <0-100>` | オーディオ音量パーセント | `100` |
 
 ## 使用例
@@ -79,8 +78,10 @@ uv run python -m qt_kurarin.main [オプション]
 ```shell
 uv run qt-kurarin
 uv run qt-kurarin --help
-uv run qt-kurarin --frame-style win11 --textual-tui
-uv run qt-kurarin --frame-style mac --verbose
+uv run qt-kurarin --frame-style win11
+uv run qt-kurarin --frame-style mac --console-mode debug
+uv run qt-kurarin --console-mode silent
+uv run qt-kurarin --console-mode debug --loudness 80
 uv run qt-kurarin --loudness 60
 ```
 

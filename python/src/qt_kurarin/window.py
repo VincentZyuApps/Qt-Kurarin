@@ -52,7 +52,7 @@ class PlayerWindow(QWidget):
     def __init__(
         self,
         frame_style: str = "none",
-        verbose: bool = False,
+        console_mode: str = "tui",
         loudness: int = 100,
         hide_taskbar: bool = False,
         fps: int = 60,
@@ -76,7 +76,7 @@ class PlayerWindow(QWidget):
         self.resources_dir = package_dir / "resources"
         self.audio_path = self.resources_dir / "audio.mp3"
         self.frame_style = frame_style
-        self.verbose = verbose
+        self._console_mode = console_mode
         self.loudness = loudness
 
         self.render_sprites: list[RenderSprite] = []
@@ -284,13 +284,14 @@ class PlayerWindow(QWidget):
             painter.drawPixmap(content_rect.toRect(), sprite.pixmap)
             painter.restore()
 
-        self._log_verbose_events(
-            elapsed=elapsed,
-            global_scale=global_scale,
-            offset_x=offset_x,
-            offset_y=offset_y,
-            visible_by_resource=visible_by_resource,
-        )
+        if self._console_mode != "silent":
+            self._log_verbose_events(
+                elapsed=elapsed,
+                global_scale=global_scale,
+                offset_x=offset_x,
+                offset_y=offset_y,
+                visible_by_resource=visible_by_resource,
+            )
         self._update_snapshot(elapsed, visible_frames)
         painter.end()
 
@@ -327,7 +328,7 @@ class PlayerWindow(QWidget):
     def _emit_event(self, time_ms: int, message: str) -> None:
         line = f"[{time_ms:6d} ms] {message}"
         self._recent_events.append(line)
-        if self.verbose:
+        if self._console_mode == "debug":
             print(line, flush=True)
 
     def _make_scene_summary(self, visible_frames: list[SpriteFrame]) -> str:

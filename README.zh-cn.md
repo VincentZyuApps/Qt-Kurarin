@@ -67,11 +67,10 @@ uv run python -m qt_kurarin.main [选项]
 
 | 参数 | 说明 | 默认值 |
 |------|------|--------|
-| `-f, --frame-style <STYLE>` | 窗口边框样式：`none`、`win11`、`mac` | `none` |
-| `-v`, `--verbose` | 在控制台实时输出精灵播放调试信息 | 关闭 |
-| `-t`, `--textual-tui` | 在 Textual TUI 中实时显示播放详情 | 关闭 |
+| `-s, --frame-style <STYLE>` | 窗口边框样式：`none`、`win11`、`mac` | `none` |
+| `-c, --console-mode <MODE>` | 控制台输出模式：`tui`（Textual TUI）、`debug`（详细终端）、`silent`（无输出） | `tui` |
 | `-n, --hide-taskbar-button` | 隐藏任务栏/程序坞图标（Win: ✅ 可靠，macOS: 🟡 可能隐藏，Linux: ❓ 取决于合成器） | 关闭 |
-| `--fps <rate>` | 动画循环的目标帧率 | `60` |
+| `-f, --fps <rate>` | 动画循环的目标帧率 | `60` |
 | `-l`, `--loudness <0-100>` | 音频音量百分比 | `100` |
 
 ## 示例
@@ -79,8 +78,10 @@ uv run python -m qt_kurarin.main [选项]
 ```shell
 uv run qt-kurarin
 uv run qt-kurarin --help
-uv run qt-kurarin --frame-style win11 --textual-tui
-uv run qt-kurarin --frame-style mac --verbose
+uv run qt-kurarin --frame-style win11
+uv run qt-kurarin --frame-style mac --console-mode debug
+uv run qt-kurarin --console-mode silent
+uv run qt-kurarin --console-mode debug --loudness 80
 uv run qt-kurarin --loudness 60
 ```
 
