@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
+from importlib.metadata import version as _pkg_version, PackageNotFoundError
 
 
 class CliHelpFormatter(argparse.HelpFormatter):
@@ -53,11 +54,22 @@ class AppOptions:
     loudness: int = 100
 
 
+try:
+    __version__ = _pkg_version("qt-kurarin")
+except PackageNotFoundError:
+    __version__ = "0.0.0"
+
+
 def parse_args(argv: list[str] | None = None) -> AppOptions:
     parser = argparse.ArgumentParser(
         prog="qt-kurarin",
         description="Play the Qt-Kurarin desktop animation sequence.",
         formatter_class=CliHelpFormatter,
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"qt-kurarin {__version__}",
     )
     parser.add_argument(
         "-s",

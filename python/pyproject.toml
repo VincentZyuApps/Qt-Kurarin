@@ -1,12 +1,19 @@
 [project]
 name = "qt-kurarin"
-version = "0.2.4-beta.2+2026624"
+version = "0.2.4-rc.1+2026624"
 description = "> 🖥️ Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music 🎵"
 readme = "README.md"
 requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
 dependencies = [
-    "PyQt6==6.11.0",
-    "textual==6.6.0",
+    "PyQt6>=6.0,<7",
+    "textual>=6.0,<7",
 ]
 
 [project.scripts]

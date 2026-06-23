@@ -14,6 +14,7 @@
 [![PyPI](https://img.shields.io/badge/PyPI-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/qt-kurarin/)
 [![PyPI version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Version&color=3775A9)](https://pypi.org/project/qt-kurarin/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Downloads&color=FFD242)](https://pypi.org/project/qt-kurarin/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/qt-kurarin?style=for-the-badge&logo=python&logoColor=white)](https://pypi.org/project/qt-kurarin/)
 
 This is a PyQt6 reconstruction track for validating the core effect of the [original project](https://github.com/VincentZyu233/Win-kurarin):
 
@@ -95,6 +96,18 @@ uv run qt-kurarin --frame-style none --console-mode debug --loudness 80 --fps 30
 > 🎨 Wallpaper size: 1600×900 px — base color: `#FFD0D8` (soft pink)
 
 [![wallpaper](docs/images/wallpaper/wallpaper_1600x900_FFD0D8.png)](docs/images/wallpaper/wallpaper_1600x900_FFD0D8.png)
+
+## 🙏 Acknowledgments
+
+> 🎵 **[Original Music & MV](https://www.youtube.com/watch?v=2b1IexhKPz4)** — Iyowa  
+> 💻 **[Original C# Program](https://www.nicovideo.jp/watch/sm41820938)** — Misaki  
+> 🐍 **[PyQt Port](https://github.com/VincentZyuApps/Qt-Kurarin)** — VincentZyu
+
+| | X | YouTube | niconico | Bilibili |
+|---|---|---|---|---|
+| 🎵 Iyowa | [![Post](https://img.shields.io/badge/Post-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/igusuri_please/status/1564026167241637888) | [![Video](https://img.shields.io/badge/Video-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=2b1IexhKPz4) | [![Video](https://img.shields.io/badge/Video-231815?style=flat-square&logo=niconico&logoColor=white)](https://www.nicovideo.jp/watch/sm39257413) | [![Video](https://img.shields.io/badge/Video-00A1D6?style=flat-square&logo=bilibili&logoColor=white)](https://www.bilibili.com/video/BV1MQ4y1a7JY) |
+| 💻 Misaki | [![Post](https://img.shields.io/badge/Post-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/0x7FF/status/1619550154599829505) | [![Video](https://img.shields.io/badge/Video-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=7v4Lo-4Imp8) | [![Video](https://img.shields.io/badge/Video-231815?style=flat-square&logo=niconico&logoColor=white)](https://www.nicovideo.jp/watch/sm41820938) | [![Video](https://img.shields.io/badge/Video-00A1D6?style=flat-square&logo=bilibili&logoColor=white)](https://www.bilibili.com/video/BV1pK4ZzUENm) |
+| 🐍 VincentZyu | [![Post](https://img.shields.io/badge/Post-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/VincentZyu233/status/2057339727762911467) | [![Video](https://img.shields.io/badge/Video-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://youtu.be/CTas1u2NFhQ?si=X3Vq50d5LIQhYyiV) | — | [![Video](https://img.shields.io/badge/Video-00A1D6?style=flat-square&logo=bilibili&logoColor=white)](https://www.bilibili.com/video/BV1DcLx6aEuh) |
 
 ## 📝 Platform Notes
 
