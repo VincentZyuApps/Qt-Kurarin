@@ -1,6 +1,6 @@
 ![Qt-Kurarin](https://socialify.git.ci/VincentZyuApps/Qt-Kurarin/image?custom_description=Qt-powered+Kyuukurarin+%28%E3%81%8D%E3%82%85%E3%81%86%E3%81%8F%E3%82%89%E3%82%8A%E3%82%93%29+on+your+desktop+%E2%80%94+animated+sprites+in+sync+with+the+music+&description=1&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F0%2F0b%2FQt_logo_2016.svg%2F960px-Qt_logo_2016.svg.png&name=1&owner=1&pulls=1&stargazers=1&theme=Auto)
 
-# Qt-Kurarin Python Prototype
+# 🎬 Qt-Kurarin Python Prototype
 
 > 🖥️ Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music 🎵
 
@@ -36,7 +36,7 @@ The current build reads:
 - `resources/audio.mp3`
 - `resources/*.png`
 
-## Run from source
+## 📥 Run from source
 
 ```shell
 git clone https://github.com/VincentZyuApps/Qt-Kurarin
@@ -51,7 +51,7 @@ uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main [OPTIONS]
 ```
 
-## Run from PyPI
+## 📦 Run from PyPI
 
 ```shell
 rm -r ./.venv/ # if already exist
@@ -63,39 +63,42 @@ uv run qt-kurarin [OPTIONS]
 uv run python -m qt_kurarin.main [OPTIONS]
 ```
 
-## Options
+## ⚙️ Options
 
 | Flag | Description | Default |
 |------|-------------|---------|
 | `-s, --frame-style <STYLE>` | Window frame style: `none`, `win11`, `mac` | `none` |
-| `-c, --console-mode <MODE>` | Console output mode: `tui` (Textual TUI), `debug` (verbose console), `silent` (no output) | `tui` |
-| `-n, --hide-taskbar-button` | Hide the taskbar/dock icon (Win: ✅, macOS: 🟡 may hide, Linux: ❓ depends on compositor) | off |
+| `-c, --console-mode <MODE>` | Console output mode: `tui` *(Textual TUI)*, `debug` *(verbose console)*, `silent` *(no output)* | `tui` |
+| `-n, --hide-taskbar-button` | Hide the taskbar/dock icon *(Win: ✅, macOS: 🟡 may hide, Linux: ❓ depends on compositor)* | off |
 | `-f, --fps <rate>` | Target frame rate for the animation loop | `60` |
 | `-l`, `--loudness <0-100>` | Audio loudness percentage | `100` |
 
-## Examples
+## 💡 Examples
 
 ```shell
 uv run qt-kurarin
 uv run qt-kurarin --help
-uv run qt-kurarin --frame-style win11
-uv run qt-kurarin --frame-style mac --console-mode debug
-uv run qt-kurarin --console-mode silent
-uv run qt-kurarin --console-mode debug --loudness 80
+uv run qt-kurarin --fps 30
 uv run qt-kurarin --loudness 60
+uv run qt-kurarin --frame-style mac
+uv run qt-kurarin --console-mode silent
+uv run qt-kurarin --hide-taskbar-button
+uv run qt-kurarin --frame-style mac --console-mode silent
+uv run qt-kurarin --frame-style win11 --console-mode debug --loudness 20
+uv run qt-kurarin --frame-style none --console-mode debug --loudness 80 --fps 30 --hide-taskbar-button
 ```
 
-## Wallpaper
+## 🖼️ Wallpaper
 
-> 💡 Generate your own wallpaper: [`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
+> 💡 Generate your own wallpaper: [`docs/images/wallpaper/gen_wallpaper.py`](docs/images/wallpaper/gen_wallpaper.py)
 > 💡 Click the wallpaper image to view full resolution, then right-click to save.
 > 🎨 Wallpaper size: 1600×900 px — base color: `#FFD0D8` (soft pink)
 
-[![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)
+[![wallpaper](docs/images/wallpaper/wallpaper_1600x900_FFD0D8.png)](docs/images/wallpaper/wallpaper_1600x900_FFD0D8.png)
 
-## Platform Notes
+## 📝 Platform Notes
 
-### `--hide-taskbar-button`
+### 🪟 `--hide-taskbar-button`
 
 Technical breakdown of how this flag behaves across operating systems:
 

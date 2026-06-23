@@ -1,12 +1,12 @@
-# Local scratch
-tmp/
-temp/
+# 🗑️ Local scratch
+**/tmp/
+**/temp/
 
-# OS / editor
+# 🖥️ OS / editor
 .DS_Store
 Thumbs.db
 
-# Python
+# 🐍 Python
 **/venv
 **/.venv/
 **/.uv-cache/

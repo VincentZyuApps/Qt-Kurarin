@@ -1,6 +1,6 @@
 ![Qt-Kurarin](https://socialify.git.ci/VincentZyuApps/Qt-Kurarin/image?custom_description=Qt-powered+Kyuukurarin+%28%E3%81%8D%E3%82%85%E3%81%86%E3%81%8F%E3%82%89%E3%82%8A%E3%82%93%29+on+your+desktop+%E2%80%94+animated+sprites+in+sync+with+the+music+&description=1&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F0%2F0b%2FQt_logo_2016.svg%2F960px-Qt_logo_2016.svg.png&name=1&owner=1&pulls=1&stargazers=1&theme=Auto)
 
-# Qt-Kurarin Python プロトタイプ
+# 🎬 Qt-Kurarin Python プロトタイプ
 
 > 🖥️ Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music 🎵
 
@@ -36,7 +36,7 @@
 - `resources/audio.mp3`
 - `resources/*.png`
 
-## ソースから実行
+## 📥 ソースから実行
 
 ```shell
 git clone https://github.com/VincentZyuApps/Qt-Kurarin
@@ -51,7 +51,7 @@ uv pip install -r ./requirements.txt
 uv run python -m qt_kurarin.main [オプション]
 ```
 
-## PyPI から実行
+## 📦 PyPI から実行
 
 ```shell
 rm -r ./.venv/ # すでに存在する場合
@@ -63,39 +63,42 @@ uv run qt-kurarin [オプション]
 uv run python -m qt_kurarin.main [オプション]
 ```
 
-## オプション
+## ⚙️ オプション
 
 | フラグ | 説明 | デフォルト |
 |--------|------|-----------|
 | `-s, --frame-style <STYLE>` | ウィンドウ枠スタイル：`none`、`win11`、`mac` | `none` |
-| `-c, --console-mode <MODE>` | 出力モード：`tui`（Textual TUI）、`debug`（詳細コンソール）、`silent`（出力なし） | `tui` |
-| `-n, --hide-taskbar-button` | タスクバー/ドックアイコンを非表示（Win: ✅ 確実、macOS: 🟡 非表示かも、Linux: ❓ コンポジター次第） | オフ |
+| `-c, --console-mode <MODE>` | 出力モード：`tui`*（Textual TUI）*、`debug`*（詳細コンソール）*、`silent`*（出力なし）* | `tui` |
+| `-n, --hide-taskbar-button` | タスクバー/ドックアイコンを非表示*（Win: ✅ 確実、macOS: 🟡 非表示かも、Linux: ❓ コンポジター次第）* | オフ |
 | `-f, --fps <rate>` | アニメーションループの目標フレームレート | `60` |
 | `-l`, `--loudness <0-100>` | オーディオ音量パーセント | `100` |
 
-## 使用例
+## 💡 使用例
 
 ```shell
 uv run qt-kurarin
 uv run qt-kurarin --help
-uv run qt-kurarin --frame-style win11
-uv run qt-kurarin --frame-style mac --console-mode debug
-uv run qt-kurarin --console-mode silent
-uv run qt-kurarin --console-mode debug --loudness 80
+uv run qt-kurarin --fps 30
 uv run qt-kurarin --loudness 60
+uv run qt-kurarin --frame-style mac
+uv run qt-kurarin --console-mode silent
+uv run qt-kurarin --hide-taskbar-button
+uv run qt-kurarin --frame-style mac --console-mode silent
+uv run qt-kurarin --frame-style win11 --console-mode debug --loudness 20
+uv run qt-kurarin --frame-style none --console-mode debug --loudness 80 --fps 30 --hide-taskbar-button
 ```
 
-## 壁紙
+## 🖼️ 壁紙
 
-> 💡 壁紙を自分で生成：[`wallpaper/gen_wallpaper.py`](wallpaper/gen_wallpaper.py)
+> 💡 壁紙を自分で生成：[`docs/images/wallpaper/gen_wallpaper.py`](docs/images/wallpaper/gen_wallpaper.py)
 > 💡 壁紙画像をクリックしてフル解像度で表示、右クリックで保存。
 > 🎨 壁紙サイズ：1600×900 px — ベースカラー：`#FFD0D8`（ソフトピンク）
 
-[![wallpaper](wallpaper/wallpaper_1600x900_FFD0D8.png)](wallpaper/wallpaper_1600x900_FFD0D8.png)
+[![wallpaper](docs/images/wallpaper/wallpaper_1600x900_FFD0D8.png)](docs/images/wallpaper/wallpaper_1600x900_FFD0D8.png)
 
-## プラットフォーム補足
+## 📝 プラットフォーム補足
 
-### `--hide-taskbar-button`
+### 🪟 `--hide-taskbar-button`
 
 各プラットフォームにおける動作の技術的解説：
 
