@@ -11,10 +11,11 @@
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VincentZyuApps/Qt-Kurarin)
 [![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/qt-kurarin)
 
-[![PyPI](https://img.shields.io/badge/PyPI-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/qt-kurarin/)
-[![PyPI version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Version&color=3775A9)](https://pypi.org/project/qt-kurarin/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Downloads&color=FFD242)](https://pypi.org/project/qt-kurarin/)
-[![Python Versions](https://img.shields.io/pypi/pyversions/qt-kurarin?style=for-the-badge&logo=python&logoColor=white)](https://pypi.org/project/qt-kurarin/)
+[![Package Version](https://img.shields.io/pypi/v/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=Package%20Version&color=3775A9)](https://pypi.org/project/qt-kurarin/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/qt-kurarin?style=for-the-badge&logo=pypi&logoColor=white&label=PyPI%20Downloads&color=FFD242)](https://pypi.org/project/qt-kurarin/)
+[![Supported Versions](https://img.shields.io/pypi/pyversions/qt-kurarin?style=for-the-badge&logo=python&logoColor=white)](https://pypi.org/project/qt-kurarin/)
+
+[![socket.dev](https://img.shields.io/badge/socket.dev-A855F7?style=for-the-badge&logo=socketdotdev&logoColor=white)](https://socket.dev/pypi/package/qt-kurarin)
 
 これは PyQt6 ベースの再実装ラインであり、[元プロジェクト](https://github.com/VincentZyu233/Win-kurarin)の中核演出をデスクトップ上で検証するためのものです：
 
