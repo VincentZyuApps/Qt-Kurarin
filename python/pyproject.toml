@@ -1,6 +1,6 @@
 [project]
 name = "qt-kurarin"
-version = "0.2.4-rc.1+2026624"
+version = "0.2.4+20260624"
 description = "> 🖥️ Qt-powered Kyuukurarin (きゅうくらりん) on your desktop — animated sprites in sync with the music 🎵"
 readme = "README.md"
 requires-python = ">=3.10"

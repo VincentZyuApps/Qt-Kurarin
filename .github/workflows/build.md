@@ -10,18 +10,17 @@ This repository uses a small commit-message-driven workflow for the Python packa
 
 | Keyword in commit message | Build wheel/sdist | Publish to PyPI |
 |---|:---:|:---:|
-| `build action` | ✅ | ❌ |
-| `publish pypi` | ✅ | ✅ |
-| `pypi publish` | ✅ | ✅ |
+| `build-action` | ✅ | ❌ |
+| `publish-pypi` | ✅ | ✅ |
 
 ## 📝 Examples
 
 ```bash
 # Build only
-git commit --allow-empty -m "ci: verify package build (build action)"
+git commit --allow-empty -m "ci: verify package build (build-action)"
 
 # Build + publish to PyPI
-git commit --allow-empty -m "release: vx.y.z-beta.w+yyyymmdd (publish pypi)"
+git commit --allow-empty -m "release: vx.y.z-beta.w+yyyymmdd (publish-pypi)"
 ```
 
 ## 📌 Notes

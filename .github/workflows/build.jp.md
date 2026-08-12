@@ -10,18 +10,17 @@
 
 | commit message 内のキーワード | wheel/sdist をビルド | PyPI へ公開 |
 |---|:---:|:---:|
-| `build action` | ✅ | ❌ |
-| `publish pypi` | ✅ | ✅ |
-| `pypi publish` | ✅ | ✅ |
+| `build-action` | ✅ | ❌ |
+| `publish-pypi` | ✅ | ✅ |
 
 ## 📝 例
 
 ```bash
 # ビルドのみ
-git commit --allow-empty -m "ci: verify package build (build action)"
+git commit --allow-empty -m "ci: verify package build (build-action)"
 
 # ビルドして PyPI に公開
-git commit --allow-empty -m "release: vx.y.z-beta.w+yyyymmdd (publish pypi)"
+git commit --allow-empty -m "release: vx.y.z-beta.w+yyyymmdd (publish-pypi)"
 ```
 
 ## 📌 注意事項

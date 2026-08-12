@@ -68,11 +68,11 @@ jobs:
           PUBLISH_PYPI=false
           MSG="$COMMIT_MSG"
 
-          if echo "$MSG" | grep -qi "build action"; then
+          if echo "$MSG" | grep -qi "build-action"; then
             BUILD=true
           fi
 
-          if echo "$MSG" | grep -qiE "pypi publish|publish pypi"; then
+          if echo "$MSG" | grep -qi "publish-pypi"; then
             BUILD=true
             PUBLISH_PYPI=true
           fi

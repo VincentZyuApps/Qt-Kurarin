@@ -10,18 +10,17 @@
 
 | Commit 信息中的关键词 | 构建 wheel/sdist | 发布到 PyPI |
 |---|:---:|:---:|
-| `build action` | ✅ | ❌ |
-| `publish pypi` | ✅ | ✅ |
-| `pypi publish` | ✅ | ✅ |
+| `build-action` | ✅ | ❌ |
+| `publish-pypi` | ✅ | ✅ |
 
 ## 📝 示例
 
 ```bash
 # 仅构建
-git commit --allow-empty -m "ci: verify package build (build action)"
+git commit --allow-empty -m "ci: verify package build (build-action)"
 
 # 构建并发布到 PyPI
-git commit --allow-empty -m "release: vx.y.z-beta.w+yyyymmdd (publish pypi)"
+git commit --allow-empty -m "release: vx.y.z-beta.w+yyyymmdd (publish-pypi)"
 ```
 
 ## 📌 说明
