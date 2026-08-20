@@ -65,6 +65,10 @@ uv run qt-kurarin [OPTIONS]
 uv run python -m qt_kurarin.main [OPTIONS]
 ```
 
+## 📦 Install from AUR
+
+[![AUR version](https://img.shields.io/aur/version/qt-kurarin?label=qt-kurarin&logo=archlinux&style=for-the-badge)](https://aur.archlinux.org/packages/qt-kurarin/)
+
 ## ⚙️ Options
 
 | Flag | Description | Default |
